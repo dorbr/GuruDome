@@ -19,15 +19,30 @@ export default function AuthModal() {
         };
     }, [isLoginModalOpen]);
 
+    const [error, setError] = useState<string | null>(null);
+
+    // Clear error when modal opens/closes
+    useEffect(() => {
+        if (isLoginModalOpen) setError(null);
+    }, [isLoginModalOpen]);
+
     const handleGoogleLogin = async () => {
         setIsLoggingIn(true);
+        setError(null);
         try {
             await signInWithGoogle();
-            // closeLoginModal is handled in signInWithGoogle usually, or here?
-            // In AuthProvider update I put it there, but redundancy is fine.
             closeLoginModal();
-        } catch (error) {
+        } catch (error: any) {
             console.error("Login failed", error);
+            // Handle specific Firebase errors
+            if (error?.code === 'auth/popup-closed-by-user') {
+                return; // Ignore
+            }
+            if (error?.code === 'auth/unauthorized-domain') {
+                setError('This domain is not authorized for Google Login. Please contact support.');
+            } else {
+                setError(error.message || 'Failed to sign in. Please try again.');
+            }
         } finally {
             setIsLoggingIn(false);
         }
@@ -78,6 +93,12 @@ export default function AuthModal() {
                         Sign in to write reviews and track your favorite gurus.
                     </p>
                 </div>
+
+                {error && (
+                    <div className="mb-4 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm text-center">
+                        {error}
+                    </div>
+                )}
 
                 <div className="space-y-4">
                     <button

@@ -101,7 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     const signInWithGoogle = async () => {
-        if (!auth) return;
+        if (!auth) throw new Error('Firebase Authentication is not initialized. Please check your network connection or configuration.');
         const provider = new GoogleAuthProvider();
         try {
             await signInWithPopup(auth, provider);
