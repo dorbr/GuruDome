@@ -78,7 +78,7 @@ export default function MobileMenu() {
                         )}
                     >
                         <Star className="w-5 h-5" />
-                        <span className="text-[10px] font-medium">{t.myReviews}</span>
+                        <span className="text-[10px] font-medium">{t.myReviewsMobile}</span>
                     </Link>
                 ) : (
                     <Link

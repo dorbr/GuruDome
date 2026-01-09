@@ -78,6 +78,7 @@ export const he: TranslationKeys = {
     creator: 'יוצר',
     instagramProfile: 'פרופיל אינסטגרם',
     myReviews: 'הביקורות שלי',
+    myReviewsMobile: 'ביקורות',
     editReview: 'ערוך ביקורת',
     deleteReviewConfirmTitle: 'מחק ביקורת?',
     deleteReviewConfirmText: 'האם אתה בטוח שברצונך למחוק את הביקורת הזו? פעולה זו לא ניתנת לביטול.',

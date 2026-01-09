@@ -76,6 +76,7 @@ export const en = {
     creator: 'Creator',
     instagramProfile: 'Instagram Profile',
     myReviews: 'My Reviews',
+    myReviewsMobile: 'Reviews',
     editReview: 'Edit Review',
     deleteReviewConfirmTitle: 'Delete Review?',
     deleteReviewConfirmText: 'Are you sure you want to delete this review? This action cannot be undone.',
