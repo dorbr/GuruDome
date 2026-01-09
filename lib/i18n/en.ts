@@ -75,6 +75,12 @@ export const en = {
     noBioYet: 'This guru has not added a bio yet.',
     creator: 'Creator',
     instagramProfile: 'Instagram Profile',
+    myReviews: 'My Reviews',
+    editReview: 'Edit Review',
+    deleteReviewConfirmTitle: 'Delete Review?',
+    deleteReviewConfirmText: 'Are you sure you want to delete this review? This action cannot be undone.',
+    cancel: 'Cancel',
+    delete: 'Delete',
 
     // Language
     language: 'Language',
@@ -134,6 +140,7 @@ export const en = {
     adding: 'Adding...',
 
     // Review Form
+    scamReport: 'Scam Report',
     reportAsScam: 'Report as Scam',
     scamDescription: 'Mark this if you believe this guru is running a scam',
     overallRating: 'Overall Rating',
@@ -158,6 +165,24 @@ export const en = {
     postingReview: 'Posting Review...',
     submitReview: 'Submit Review',
     pleaseSelectRating: 'Please select an overall rating',
+
+    // Report & Moderation
+    reportReview: 'Report Review',
+    reportReason: 'Reason for Report',
+    reportReasons: {
+        false_information: 'False Information',
+        offensive_content: 'Offensive Content',
+        spam: 'Spam',
+        other: 'Other',
+    },
+    reportDescription: 'Additional Details (Optional)',
+    reportDescriptionPlaceholder: 'Please provide more details about this report...',
+    submitReport: 'Submit Report',
+    cancelReport: 'Cancel',
+    reportSubmitted: 'Report Submitted',
+    reportSubmittedDesc: 'Thank you for helping keep our community safe. We will review this report.',
+    alreadyReported: 'You have already reported this review',
+    opinionDisclaimer: 'This review reflects the personal opinion of the user only.',
 
     // Privacy Policy
     privacyPolicyTitle: 'Privacy Policy',
@@ -193,6 +218,98 @@ export const en = {
     termsChangesText: 'We reserve the right to modify these Terms at any time. We will notify you of any material changes by posting the new Terms on this page. Your continued use of the service after such changes constitutes your acceptance of the new Terms.',
     termsContactTitle: '7. Contact Us',
     termsContactText: 'If you have any questions about these Terms, please contact us at support@gurudome.com.',
+
+    // Admin Panel
+    admin: {
+        title: 'Admin Panel',
+        dashboard: 'Dashboard',
+        users: 'Users',
+        gurus: 'Gurus',
+        reviews: 'Reviews',
+        reports: 'Reports',
+        backToSite: 'Back to Site',
+        accessDenied: 'Access Denied',
+        noPermission: 'You don\'t have permission to access this area.',
+        returnHome: 'Return to Home',
+
+        // Dashboard
+        overview: 'Overview of your platform',
+        totalUsers: 'Total Users',
+        totalGurus: 'Total Gurus',
+        totalReviews: 'Total Reviews',
+        pendingReports: 'Pending Reports',
+        bannedUsers: 'Banned Users',
+        thisWeek: 'this week',
+        roleDistribution: 'User Role Distribution',
+        quickActions: 'Quick Actions',
+        reviewReports: 'Review Reports',
+        flaggedReviews: 'Flagged Reviews',
+        scamReports: 'Scam Reports',
+
+        // Users
+        manageUsers: 'Manage user accounts and roles',
+        searchUsers: 'Search by email or name...',
+        allRoles: 'All Roles',
+        allStatus: 'All Status',
+        active: 'Active',
+        banned: 'Banned',
+        user: 'User',
+        moderator: 'Moderator',
+        setAsUser: 'Set as User',
+        setAsModerator: 'Set as Moderator',
+        setAsAdmin: 'Set as Admin',
+        banUser: 'Ban User',
+        unbanUser: 'Unban User',
+        reasonForBan: 'Reason for ban:',
+        joined: 'Joined',
+
+        // Gurus
+        manageGurus: 'Manage guru profiles',
+        searchGurus: 'Search by name or Instagram...',
+        allCategories: 'All Categories',
+        sortBy: 'Sort by',
+        newest: 'Newest',
+        nameAZ: 'Name A-Z',
+        highestRated: 'Highest Rated',
+        mostReviews: 'Most Reviews',
+        viewProfile: 'View Profile',
+        viewReviews: 'View Reviews',
+        deleteGuru: 'Delete Guru',
+        confirmDeleteGuru: 'Are you sure you want to delete this guru? This will also delete all associated reviews. This action cannot be undone.',
+
+        // Reviews
+        moderateReviews: 'Moderate and manage reviews',
+        allReviews: 'All Reviews',
+        flagged: 'Flagged (Reported)',
+        hidden: 'Hidden',
+        showReview: 'Show Review',
+        hideReview: 'Hide Review',
+        clearReports: 'Clear Reports',
+        deletePermanently: 'Delete Permanently',
+        confirmDeleteReview: 'Are you sure you want to permanently delete this review? This action cannot be undone.',
+        filteringByGuru: 'Filtering by guru',
+        clear: 'Clear',
+
+        // Reports
+        handleReports: 'Handle reported reviews',
+        pending: 'Pending',
+        reviewed: 'Reviewed',
+        dismissed: 'Dismissed',
+        removed: 'Removed',
+        all: 'All',
+        reportedBy: 'Reported by',
+        reportedReview: 'Reported Review',
+        dismiss: 'Dismiss',
+        markReviewed: 'Mark Reviewed',
+        removeReview: 'Remove Review',
+        reportReasons: {
+            false_information: 'False Information',
+            offensive_content: 'Offensive Content',
+            spam: 'Spam',
+            other: 'Other',
+        },
+        noReportsFound: 'No reports found',
+    },
 };
 
 export type TranslationKeys = typeof en;

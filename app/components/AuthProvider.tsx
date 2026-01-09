@@ -11,8 +11,13 @@ import {
     User
 } from 'firebase/auth';
 
+export type UserRole = 'user' | 'moderator' | 'admin';
+
 interface AuthContextType {
     user: User | null;
+    userRole: UserRole;
+    isAdmin: boolean;
+    isModerator: boolean;
     loading: boolean;
     signInWithGoogle: () => Promise<void>;
     logout: () => Promise<void>;
@@ -23,6 +28,9 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
     user: null,
+    userRole: 'user',
+    isAdmin: false,
+    isModerator: false,
     loading: true,
     signInWithGoogle: async () => { },
     logout: async () => { },
@@ -35,8 +43,12 @@ export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
+    const [userRole, setUserRole] = useState<UserRole>('user');
     const [loading, setLoading] = useState(true);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+    const isAdmin = userRole === 'admin';
+    const isModerator = userRole === 'moderator' || userRole === 'admin';
 
     useEffect(() => {
         if (!auth) {
@@ -46,12 +58,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             setUser(currentUser);
-            setLoading(false);
 
             if (currentUser) {
-                // Sync user with backend
+                // Sync user with backend and get role
                 try {
-                    await fetch('/api/auth/sync', {
+                    const response = await fetch('/api/auth/sync', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -61,10 +72,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                             photoURL: currentUser.photoURL,
                         }),
                     });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Auth sync response:', data);
+                        console.log('User role from API:', data.user?.role);
+                        setUserRole(data.user?.role || 'user');
+                    } else if (response.status === 403) {
+                        // User is banned
+                        const data = await response.json();
+                        console.error('Account banned:', data.reason);
+                        if (auth) await firebaseSignOut(auth);
+                        alert('Your account has been banned. Reason: ' + (data.reason || 'Violation of terms'));
+                    } else {
+                        console.error('Auth sync failed:', response.status);
+                    }
                 } catch (error) {
                     console.error('Failed to sync user with backend:', error);
                 }
+            } else {
+                setUserRole('user');
             }
+
+            setLoading(false);
         });
 
         return () => unsubscribe();
@@ -86,6 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (!auth) return;
         try {
             await firebaseSignOut(auth);
+            setUserRole('user');
         } catch (error) {
             console.error('Error signing out', error);
             throw error;
@@ -98,6 +129,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return (
         <AuthContext.Provider value={{
             user,
+            userRole,
+            isAdmin,
+            isModerator,
             loading,
             signInWithGoogle,
             logout,
@@ -111,4 +145,3 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
 }
 
-// Need to import AuthModal at the top! I will add the import next.

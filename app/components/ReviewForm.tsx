@@ -1,24 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Star } from 'lucide-react';
 import { auth } from '@/lib/firebase';
 import { useLanguage } from './LanguageProvider';
 
-export default function ReviewForm({ guruId, onSuccess }: { guruId: string; onSuccess?: () => void }) {
+interface ReviewFormProps {
+    guruId: string;
+    onSuccess?: () => void;
+    initialData?: any;
+    reviewId?: string; // If provided, it's an edit
+}
+
+export default function ReviewForm({ guruId, onSuccess, initialData, reviewId }: ReviewFormProps) {
     const router = useRouter();
     const { t } = useLanguage();
-    const [rating, setRating] = useState(0);
+
+    // Initialize state with initialData if provided
+    const [rating, setRating] = useState(initialData?.rating || 0);
     const [hoverRating, setHoverRating] = useState(0);
-    const [text, setText] = useState('');
-    const [title, setTitle] = useState('');
-    const [isScam, setIsScam] = useState(false);
-    const [isPurchased, setIsPurchased] = useState(false);
+    const [text, setText] = useState(initialData?.text || '');
+    const [title, setTitle] = useState(initialData?.title || '');
+    const [isScam, setIsScam] = useState(initialData?.isScam || false);
+    const [isPurchased, setIsPurchased] = useState(initialData?.isPurchased || false);
     const [detailedRatings, setDetailedRatings] = useState({
-        trustworthiness: 0,
-        valueForMoney: 0,
-        authenticity: 0
+        trustworthiness: initialData?.detailedRatings?.trustworthiness || 0,
+        valueForMoney: initialData?.detailedRatings?.valueForMoney || 0,
+        authenticity: initialData?.detailedRatings?.authenticity || 0
     });
 
     // Hover states for detailed ratings
@@ -71,24 +80,37 @@ export default function ReviewForm({ guruId, onSuccess }: { guruId: string; onSu
                 }
             };
 
-            const res = await fetch(`/api/gurus/${guruId}/reviews`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-            });
+            let res;
+            if (reviewId) {
+                // Update existing review
+                res = await fetch(`/api/reviews/${reviewId}?userId=${userId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+            } else {
+                // Create new review
+                res = await fetch(`/api/gurus/${guruId}/reviews`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+            }
 
             if (!res.ok) {
                 const data = await res.json();
                 throw new Error(data.error || 'Failed to submit review');
             }
 
-            // Reset form
-            setRating(0);
-            setText('');
-            setTitle('');
-            setIsScam(false);
-            setIsPurchased(false);
-            setDetailedRatings({ trustworthiness: 0, valueForMoney: 0, authenticity: 0 });
+            // Only reset form if creating new review
+            if (!reviewId) {
+                setRating(0);
+                setText('');
+                setTitle('');
+                setIsScam(false);
+                setIsPurchased(false);
+                setDetailedRatings({ trustworthiness: 0, valueForMoney: 0, authenticity: 0 });
+            }
 
             router.refresh();
 
@@ -265,8 +287,9 @@ export default function ReviewForm({ guruId, onSuccess }: { guruId: string; onSu
                 disabled={isSubmitting}
                 className="w-full rounded-lg bg-primary h-11 text-base font-semibold text-primary-foreground shadow-lg transition-all hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
             >
-                {isSubmitting ? t.postingReview : t.submitReview}
+                {isSubmitting ? (reviewId ? 'Updating...' : t.postingReview) : (reviewId ? 'Update Review' : t.submitReview)}
             </button>
         </form>
     );
 }
+

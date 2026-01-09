@@ -77,6 +77,12 @@ export const he: TranslationKeys = {
     noBioYet: 'הגורו הזה עדיין לא הוסיף ביוגרפיה.',
     creator: 'יוצר',
     instagramProfile: 'פרופיל אינסטגרם',
+    myReviews: 'הביקורות שלי',
+    editReview: 'ערוך ביקורת',
+    deleteReviewConfirmTitle: 'מחק ביקורת?',
+    deleteReviewConfirmText: 'האם אתה בטוח שברצונך למחוק את הביקורת הזו? פעולה זו לא ניתנת לביטול.',
+    cancel: 'ביטול',
+    delete: 'מחק',
 
     // Language
     language: 'שפה',
@@ -136,6 +142,7 @@ export const he: TranslationKeys = {
     adding: 'מוסיף...',
 
     // Review Form
+    scamReport: 'דיווח הונאה',
     reportAsScam: 'דווח כהונאה',
     scamDescription: 'סמן אם אתה מאמין שהגורו הזה מנהל הונאה',
     overallRating: 'דירוג כללי',
@@ -160,6 +167,24 @@ export const he: TranslationKeys = {
     postingReview: 'מפרסם ביקורת...',
     submitReview: 'שלח ביקורת',
     pleaseSelectRating: 'אנא בחר דירוג כללי',
+
+    // Report & Moderation
+    reportReview: 'דווח על ביקורת',
+    reportReason: 'סיבת הדיווח',
+    reportReasons: {
+        false_information: 'מידע שגוי',
+        offensive_content: 'תוכן פוגעני',
+        spam: 'ספאם',
+        other: 'אחר',
+    },
+    reportDescription: 'פרטים נוספים (אופציונלי)',
+    reportDescriptionPlaceholder: 'אנא ספק פרטים נוספים על הדיווח...',
+    submitReport: 'שלח דיווח',
+    cancelReport: 'ביטול',
+    reportSubmitted: 'הדיווח נשלח',
+    reportSubmittedDesc: 'תודה שעזרת לשמור על הקהילה שלנו בטוחה. נבדוק את הדיווח.',
+    alreadyReported: 'כבר דיווחת על ביקורת זו',
+    opinionDisclaimer: 'ביקורת זו משקפת את דעתו האישית של המשתמש בלבד.',
 
     // Privacy Policy
     privacyPolicyTitle: 'מדיניות פרטיות',
@@ -195,4 +220,96 @@ export const he: TranslationKeys = {
     termsChangesText: 'אנו שומרים על הזכות לשנות תנאים אלה בכל עת. אנו נודיע לך על שינויים מהותיים על ידי פרסום התנאים החדשים בדף זה. המשך השימוש שלך בשירות לאחר שינויים כאלה מהווה את הסכמתך לתנאים החדשים.',
     termsContactTitle: '7. צור קשר',
     termsContactText: 'אם יש לך שאלות לגבי תנאים אלה, אנא צור קשר איתנו בכתובת support@gurudome.com.',
+
+    // Admin Panel
+    admin: {
+        title: 'לוח בקרה',
+        dashboard: 'דשבורד',
+        users: 'משתמשים',
+        gurus: 'גורואים',
+        reviews: 'ביקורות',
+        reports: 'דיווחים',
+        backToSite: 'חזרה לאתר',
+        accessDenied: 'הגישה נדחתה',
+        noPermission: 'אין לך הרשאה לגשת לאזור זה.',
+        returnHome: 'חזרה לדף הבית',
+
+        // Dashboard
+        overview: 'סקירה כללית של הפלטפורמה',
+        totalUsers: 'סה״כ משתמשים',
+        totalGurus: 'סה״כ גורואים',
+        totalReviews: 'סה״כ ביקורות',
+        pendingReports: 'דיווחים ממתינים',
+        bannedUsers: 'משתמשים חסומים',
+        thisWeek: 'השבוע',
+        roleDistribution: 'התפלגות תפקידים',
+        quickActions: 'פעולות מהירות',
+        reviewReports: 'בדוק דיווחים',
+        flaggedReviews: 'ביקורות מסומנות',
+        scamReports: 'דיווחי הונאה',
+
+        // Users
+        manageUsers: 'ניהול חשבונות ותפקידים',
+        searchUsers: 'חפש לפי אימייל או שם...',
+        allRoles: 'כל התפקידים',
+        allStatus: 'כל הסטטוסים',
+        active: 'פעיל',
+        banned: 'חסום',
+        user: 'משתמש',
+        moderator: 'מנחה',
+        setAsUser: 'הגדר כמשתמש',
+        setAsModerator: 'הגדר כמנחה',
+        setAsAdmin: 'הגדר כמנהל',
+        banUser: 'חסום משתמש',
+        unbanUser: 'בטל חסימה',
+        reasonForBan: 'סיבת החסימה:',
+        joined: 'הצטרף',
+
+        // Gurus
+        manageGurus: 'ניהול פרופילי גורואים',
+        searchGurus: 'חפש לפי שם או אינסטגרם...',
+        allCategories: 'כל הקטגוריות',
+        sortBy: 'מיין לפי',
+        newest: 'חדשים',
+        nameAZ: 'שם א-ת',
+        highestRated: 'דירוג גבוה',
+        mostReviews: 'הכי נסקרים',
+        viewProfile: 'צפה בפרופיל',
+        viewReviews: 'צפה בביקורות',
+        deleteGuru: 'מחק גורו',
+        confirmDeleteGuru: 'האם אתה בטוח שברצונך למחוק את הגורו הזה? פעולה זו תמחק גם את כל הביקורות הקשורות ולא ניתן לבטלה.',
+
+        // Reviews
+        moderateReviews: 'ניהול וביקורת תכנים',
+        allReviews: 'כל הביקורות',
+        flagged: 'מדווחות',
+        hidden: 'מוסתרות',
+        showReview: 'הצג ביקורת',
+        hideReview: 'הסתר ביקורת',
+        clearReports: 'נקה דיווחים',
+        deletePermanently: 'מחק לצמיתות',
+        confirmDeleteReview: 'האם אתה בטוח שברצונך למחוק לצמיתות את הביקורת הזו? פעולה זו לא ניתנת לביטול.',
+        filteringByGuru: 'מסנן לפי גורו',
+        clear: 'נקה',
+
+        // Reports
+        handleReports: 'טיפול בדיווחים על ביקורות',
+        pending: 'ממתין',
+        reviewed: 'נבדק',
+        dismissed: 'נדחה',
+        removed: 'הוסר',
+        all: 'הכל',
+        reportedBy: 'דווח על ידי',
+        reportedReview: 'הביקורת המדווחת',
+        dismiss: 'דחה',
+        markReviewed: 'סמן כנבדק',
+        removeReview: 'הסר ביקורת',
+        reportReasons: {
+            false_information: 'מידע שגוי',
+            offensive_content: 'תוכן פוגעני',
+            spam: 'ספאם',
+            other: 'אחר',
+        },
+        noReportsFound: 'לא נמצאו דיווחים',
+    },
 };

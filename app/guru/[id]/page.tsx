@@ -14,7 +14,7 @@ async function getGuruData(id: string) {
 async function getReviews(id: string) {
     if (!mongoose.Types.ObjectId.isValid(id)) return [];
     await connectToDatabase();
-    const reviews = await Review.find({ guruId: id }).sort({ createdAt: -1 });
+    const reviews = await Review.find({ guruId: id, isHidden: { $ne: true } }).sort({ createdAt: -1 });
     return JSON.parse(JSON.stringify(reviews));
 }
 

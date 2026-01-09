@@ -6,6 +6,8 @@ import SearchFilters from './SearchFilters';
 import GuruCard from './GuruCard';
 import GuruSection from './GuruSection';
 import { useLanguage } from './LanguageProvider';
+import Link from 'next/link';
+import { Plus } from 'lucide-react';
 
 interface HomeContentProps {
     gurus: any[];
@@ -40,6 +42,18 @@ export default function HomeContent({ gurus, experts, scammers, trending, isSear
 
                 <div className="w-full max-w-xl mt-12 relative z-10 animate-in slide-in-from-bottom-4 duration-1000 delay-200">
                     <Search />
+                </div>
+
+                <div className="mt-8 relative z-10 animate-in slide-in-from-bottom-5 duration-1000 delay-300">
+                    <Link href="/add-guru">
+                        <button className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-primary/50 hover:ring-2 hover:ring-primary/50 hover:ring-offset-2 hover:ring-offset-background">
+                            <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
+                                <div className="relative h-full w-8 bg-white/20"></div>
+                            </div>
+                            <Plus className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:rotate-90 group-active:rotate-180" />
+                            <span className="relative">{t.addGuru}</span>
+                        </button>
+                    </Link>
                 </div>
             </section>
 

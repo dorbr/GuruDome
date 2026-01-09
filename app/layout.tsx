@@ -5,6 +5,7 @@ import { AuthProvider } from "./components/AuthProvider";
 import { LanguageProvider } from "./components/LanguageProvider";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import MobileMenu from "./components/MobileMenu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
             <Header />
             {children}
             <Footer />
+            <MobileMenu />
           </AuthProvider>
         </LanguageProvider>
       </body>

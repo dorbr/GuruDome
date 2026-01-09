@@ -3,10 +3,12 @@
 import Link from 'next/link';
 import UserMenu from './UserMenu';
 import { useLanguage } from './LanguageProvider';
-import { Globe } from 'lucide-react';
+import { useAuth } from './AuthProvider';
+import { Globe, Shield } from 'lucide-react';
 
 export default function Header() {
     const { t, language, setLanguage } = useLanguage();
+    const { user, isModerator } = useAuth();
 
     const toggleLanguage = () => {
         setLanguage(language === 'en' ? 'he' : 'en');
@@ -31,6 +33,20 @@ export default function Header() {
                         <Link href="/contact" className="transition-colors hover:text-primary hover:font-semibold">
                             {t.contact}
                         </Link>
+                        {user && (
+                            <Link href="/my-reviews" className="transition-colors hover:text-primary hover:font-semibold">
+                                {t.myReviews}
+                            </Link>
+                        )}
+                        {isModerator && (
+                            <Link
+                                href="/admin"
+                                className="transition-colors hover:text-primary hover:font-semibold flex items-center gap-1.5 text-primary"
+                            >
+                                <Shield className="h-4 w-4" />
+                                Admin
+                            </Link>
+                        )}
                     </nav>
                 </div>
 
@@ -46,13 +62,10 @@ export default function Header() {
                     </button>
 
                     <UserMenu />
-                    <Link href="/add-guru">
-                        <button className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:shadow-primary/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
-                            {t.addGuru}
-                        </button>
-                    </Link>
+
                 </div>
             </div>
         </header>
     );
 }
+

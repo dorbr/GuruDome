@@ -6,7 +6,16 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     displayName: { type: String },
     photoURL: { type: String },
+    role: {
+        type: String,
+        enum: ['user', 'moderator', 'admin'],
+        default: 'user'
+    },
+    isBanned: { type: Boolean, default: false },
+    bannedAt: { type: Date },
+    bannedReason: { type: String },
     createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
 });
 
 // Guru Schema
@@ -51,6 +60,27 @@ const ReviewSchema = new Schema({
     },
     isScam: { type: Boolean, default: false },
     isPurchased: { type: Boolean, default: false },
+    // Moderation fields
+    isHidden: { type: Boolean, default: false },
+    reportCount: { type: Number, default: 0 },
+    createdAt: { type: Date, default: Date.now },
+});
+
+// Review Report Schema - for tracking reported reviews
+const ReviewReportSchema = new Schema({
+    reviewId: { type: Schema.Types.ObjectId, ref: 'Review', required: true },
+    reporterId: { type: String, required: true }, // Firebase UID
+    reason: {
+        type: String,
+        enum: ['false_information', 'offensive_content', 'spam', 'other'],
+        required: true
+    },
+    description: { type: String },
+    status: {
+        type: String,
+        enum: ['pending', 'reviewed', 'dismissed', 'removed'],
+        default: 'pending'
+    },
     createdAt: { type: Date, default: Date.now },
 });
 
@@ -59,10 +89,12 @@ if (process.env.NODE_ENV === 'development' && models.Review) {
     delete models.Review;
     delete models.Guru;
     delete models.User;
+    delete models.ReviewReport;
 }
 
 const User = models.User || model('User', UserSchema);
 const Guru = models.Guru || model('Guru', GuruSchema);
 const Review = models.Review || model('Review', ReviewSchema);
+const ReviewReport = models.ReviewReport || model('ReviewReport', ReviewReportSchema);
 
-export { User, Guru, Review };
+export { User, Guru, Review, ReviewReport };

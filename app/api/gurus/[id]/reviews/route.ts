@@ -15,7 +15,7 @@ export async function GET(
             return NextResponse.json({ error: "Invalid Guru ID" }, { status: 400 });
         }
 
-        const reviews = await Review.find({ guruId: id }).sort({ createdAt: -1 });
+        const reviews = await Review.find({ guruId: id, isHidden: { $ne: true } }).sort({ createdAt: -1 });
         return NextResponse.json(reviews);
     } catch (error) {
         console.error("Error fetching reviews:", error);

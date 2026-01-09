@@ -2,11 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from './AuthProvider';
-import { LogOut, User as UserIcon, LogIn } from 'lucide-react';
+import { LogOut, User as UserIcon, LogIn, Settings, Shield, Star } from 'lucide-react';
 import Link from 'next/link';
 
 export default function UserMenu() {
-    const { user, loading, logout, openLoginModal } = useAuth();
+    const { user, loading, logout, openLoginModal, isModerator, userRole } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -40,11 +40,22 @@ export default function UserMenu() {
         );
     }
 
+    const getRoleBadgeColor = () => {
+        switch (userRole) {
+            case 'admin':
+                return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
+            case 'moderator':
+                return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400';
+            default:
+                return 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400';
+        }
+    };
+
     return (
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-2 rounded-full border border-border bg-background p-1 pr-3 hover:bg-accent transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                className="rounded-full transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             >
                 <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden border border-border/50">
                     {user.photoURL ? (
@@ -59,19 +70,41 @@ export default function UserMenu() {
                         </div>
                     )}
                 </div>
-                <span className="text-sm font-medium max-w-[100px] truncate hidden md:block">
-                    {user.displayName?.split(' ')[0] || 'User'}
-                </span>
             </button>
 
             {isDropdownOpen && (
                 <div className="absolute right-0 top-full mt-2 w-56 rounded-xl border bg-card p-2 shadow-lg animate-in fade-in zoom-in-95 duration-200 z-50">
-                    <div className="px-2 py-1.5 text-sm font-semibold border-b mb-1">
-                        My Account
+                    <div className="px-2 py-1.5 text-sm font-semibold border-b mb-1 flex items-center justify-between">
+                        <span>My Account</span>
+                        {userRole !== 'user' && (
+                            <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${getRoleBadgeColor()}`}>
+                                {userRole}
+                            </span>
+                        )}
                     </div>
                     <div className="px-2 py-1.5 text-xs text-muted-foreground truncate mb-1">
                         {user.email}
                     </div>
+
+                    {isModerator && (
+                        <Link
+                            href="/admin"
+                            onClick={() => setIsDropdownOpen(false)}
+                            className="w-full flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-accent transition-colors"
+                        >
+                            <Shield className="h-4 w-4" />
+                            Admin Panel
+                        </Link>
+                    )}
+
+                    <Link
+                        href="/my-reviews"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="w-full flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-accent transition-colors"
+                    >
+                        <Star className="h-4 w-4" />
+                        My Reviews
+                    </Link>
 
                     <button
                         onClick={() => {
@@ -88,3 +121,4 @@ export default function UserMenu() {
         </div>
     );
 }
+
