@@ -28,15 +28,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
+    <html lang="en" className="dark w-full overflow-x-hidden" style={{ colorScheme: 'dark' }} suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col w-full`}
       >
         <LanguageProvider>
           <AuthProvider>
             <Header />
             {children}
             <Footer />
+            <div className="h-24 md:hidden" aria-hidden="true" />
             <MobileMenu />
           </AuthProvider>
         </LanguageProvider>
