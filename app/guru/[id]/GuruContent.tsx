@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Star, ChevronDown } from 'lucide-react';
+import { Star, ChevronDown, Flag } from 'lucide-react';
 import ReviewCard from '../../components/ReviewCard';
 import ReviewModal from '../../components/ReviewModal';
+import ReportModal from '../../components/ReportModal';
 import GuruAvatar from '../../components/GuruAvatar';
 import { useLanguage } from '../../components/LanguageProvider';
 import PerformanceHistoryModal from '../../components/PerformanceHistoryModal';
@@ -16,6 +17,7 @@ interface GuruContentProps {
 
 export default function GuruContent({ guru, reviews, guruId }: GuruContentProps) {
     const { t } = useLanguage();
+    const [showReportModal, setShowReportModal] = useState(false);
 
     return (
         <main className="flex-1 container mx-auto px-4 py-8 max-w-5xl">
@@ -26,7 +28,7 @@ export default function GuruContent({ guru, reviews, guruId }: GuruContentProps)
                     <GuruAvatar
                         name={guru.name}
                         imageUrl={guru.profileImage}
-                        instagramUrl={guru.instagramUrl}
+                        socialUrl={guru.socialUrl}
                         className="w-24 h-24 md:w-32 md:h-32 text-4xl"
                     />
 
@@ -36,9 +38,9 @@ export default function GuruContent({ guru, reviews, guruId }: GuruContentProps)
                             <p className="text-muted-foreground font-medium">{guru.category || t.creator}</p>
                             {/* Links could go here */}
                             <div className="flex gap-4 text-sm text-primary">
-                                {guru.instagramUrl && (
-                                    <a href={guru.instagramUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                        {t.instagramProfile}
+                                {guru.socialUrl && (
+                                    <a href={guru.socialUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                                        {t.socialProfile}
                                     </a>
                                 )}
                             </div>
@@ -61,11 +63,31 @@ export default function GuruContent({ guru, reviews, guruId }: GuruContentProps)
                                 </div>
                             </div>
 
-                            <ReviewModal guruId={guruId} className="w-auto px-6" />
+                            <div className="flex gap-2">
+                                <ReviewModal guruId={guruId} className="w-auto px-6" />
+                                <button
+                                    onClick={() => setShowReportModal(true)}
+                                    className="p-2 rounded-lg border border-muted hover:bg-red-50 hover:border-red-200 hover:text-red-500 transition-colors"
+                                    title={t.reportGuru}
+                                >
+                                    <Flag className="h-5 w-5" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                {/* Disclaimer */}
+                <p className="text-xs text-muted-foreground mt-4 text-center border-t pt-4">
+                    {t.guruProfileDisclaimer}
+                </p>
             </div>
+
+            <ReportModal
+                targetId={guruId}
+                targetType="guru"
+                isOpen={showReportModal}
+                onClose={() => setShowReportModal(false)}
+            />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 {/* AI Summary & Background Check */}

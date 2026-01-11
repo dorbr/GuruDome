@@ -6,7 +6,7 @@ import Image from 'next/image';
 interface GuruAvatarProps {
     name: string;
     imageUrl?: string; // Stored URL from DB
-    instagramUrl?: string; // Kept for future potential fallback or other uses, though primarily we use imageUrl now
+    socialUrl?: string; // Kept for future potential fallback
     className?: string;
     size?: 'sm' | 'md' | 'lg' | 'xl';
 }

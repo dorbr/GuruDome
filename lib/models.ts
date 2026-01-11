@@ -20,7 +20,7 @@ const UserSchema = new Schema({
 
 // Guru Schema
 const GuruSchema = new Schema({
-    instagramUrl: { type: String, required: true, unique: true },
+    socialUrl: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     profileImage: { type: String }, // URL of the scraped profile image
     bio: { type: String },
@@ -90,13 +90,18 @@ const ReviewSchema = new Schema({
     createdAt: { type: Date, default: Date.now },
 });
 
-// Review Report Schema - for tracking reported reviews
-const ReviewReportSchema = new Schema({
-    reviewId: { type: Schema.Types.ObjectId, ref: 'Review', required: true },
+// Report Schema - Generalized for Reviews and Gurus
+const ReportSchema = new Schema({
+    targetType: {
+        type: String,
+        enum: ['review', 'guru'],
+        required: true
+    },
+    targetId: { type: Schema.Types.ObjectId, required: true }, // reviewId or guruId
     reporterId: { type: String, required: true }, // Firebase UID
     reason: {
         type: String,
-        enum: ['false_information', 'offensive_content', 'spam', 'other'],
+        enum: ['defamation', 'privacy', 'impersonation', 'copyright', 'hate_speech', 'spam', 'other'],
         required: true
     },
     description: { type: String },
@@ -105,6 +110,10 @@ const ReviewReportSchema = new Schema({
         enum: ['pending', 'reviewed', 'dismissed', 'removed'],
         default: 'pending'
     },
+    resolution: { type: String }, // Admin notes on resolution
+    adminId: { type: String }, // Admin who resolved it
+    ipAddress: { type: String }, // For abuse prevention
+    userAgent: { type: String }, // For abuse prevention
     createdAt: { type: Date, default: Date.now },
 });
 
@@ -128,6 +137,7 @@ if (process.env.NODE_ENV === 'development' && models.Review) {
     delete models.Review;
     delete models.Guru;
     delete models.User;
+    delete models.Report;
     delete models.ReviewReport;
     delete models.BugReport;
 }
@@ -135,7 +145,7 @@ if (process.env.NODE_ENV === 'development' && models.Review) {
 const User = models.User || model('User', UserSchema);
 const Guru = models.Guru || model('Guru', GuruSchema);
 const Review = models.Review || model('Review', ReviewSchema);
-const ReviewReport = models.ReviewReport || model('ReviewReport', ReviewReportSchema);
+const Report = models.Report || model('Report', ReportSchema);
 const BugReport = models.BugReport || model('BugReport', BugReportSchema);
 
-export { User, Guru, Review, ReviewReport, BugReport };
+export { User, Guru, Review, Report, BugReport };

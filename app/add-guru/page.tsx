@@ -35,7 +35,7 @@ export default function AddGuruPage() {
     const { t } = useLanguage();
     const [formData, setFormData] = useState({
         name: '',
-        instagramUrl: '',
+        socialUrl: '',
         category: '',
         bio: '',
     });
@@ -140,15 +140,15 @@ export default function AddGuruPage() {
                             </div>
 
                             <div>
-                                <label htmlFor="instagramUrl" className="block text-sm font-medium">{t.instagramUrl}</label>
+                                <label htmlFor="socialUrl" className="block text-sm font-medium">{t.socialUrl}</label>
                                 <input
-                                    id="instagramUrl"
-                                    name="instagramUrl"
+                                    id="socialUrl"
+                                    name="socialUrl"
                                     type="url"
                                     required
                                     className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                    placeholder={t.instagramUrlPlaceholder}
-                                    value={formData.instagramUrl}
+                                    placeholder={t.socialUrlPlaceholder}
+                                    value={formData.socialUrl}
                                     onChange={handleChange}
                                 />
                             </div>

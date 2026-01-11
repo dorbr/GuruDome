@@ -32,7 +32,7 @@ export default function Header() {
                         </Link>
                         <Link href="/battles" className="transition-colors hover:text-primary hover:font-semibold flex items-center gap-1.5">
                             <span className="text-yellow-500">⚔️</span>
-                            Battles
+                            {t.battles}
                         </Link>
                         <Link href="/contact" className="transition-colors hover:text-primary hover:font-semibold">
                             {t.contact}

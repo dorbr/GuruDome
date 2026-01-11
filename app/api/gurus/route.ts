@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         if (query) {
             conditions.push(
                 { name: { $regex: query, $options: "i" } },
-                { instagramUrl: { $regex: query, $options: "i" } },
+                { socialUrl: { $regex: query, $options: "i" } },
                 { "socialHandles.twitter": { $regex: query, $options: "i" } }
             );
             filter.$or = conditions;
@@ -78,18 +78,18 @@ export async function POST(request: Request) {
         const body = await request.json();
 
         // Basic validation
-        if (!body.name || !body.instagramUrl) {
+        if (!body.name || !body.socialUrl) {
             return NextResponse.json(
-                { error: "Name and Instagram URL are required" },
+                { error: "Name and Social URL are required" },
                 { status: 400 }
             );
         }
 
         // Check for existing guru by Instagram URL
-        const existingGuru = await Guru.findOne({ instagramUrl: body.instagramUrl });
+        const existingGuru = await Guru.findOne({ socialUrl: body.socialUrl });
         if (existingGuru) {
             return NextResponse.json(
-                { error: "Guru with this Instagram URL already exists" },
+                { error: "Guru with this Social URL already exists" },
                 { status: 409 }
             );
         }
@@ -99,9 +99,13 @@ export async function POST(request: Request) {
         let firebaseImageUrl = null;
 
         try {
-            console.log("Attempting to scrape image for:", body.instagramUrl);
-            scrapedImageUrl = await fetchInstagramImage(body.instagramUrl);
-            console.log("Scraped URL result:", scrapedImageUrl);
+            if (body.socialUrl.includes('instagram.com')) {
+                console.log("Attempting to scrape image for:", body.socialUrl);
+                scrapedImageUrl = await fetchInstagramImage(body.socialUrl);
+                console.log("Scraped URL result:", scrapedImageUrl);
+            } else {
+                console.log("Skipping image fetch for non-Instagram URL:", body.socialUrl);
+            }
 
             if (scrapedImageUrl) {
                 // 2. Upload to Firebase Storage

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/db";
 import { Review, Guru } from "@/lib/models";
 import mongoose from "mongoose";
+import { updateGuruMetrics } from "@/lib/guru";
 
 export async function DELETE(
     request: Request,
@@ -32,29 +33,14 @@ export async function DELETE(
         const guru = await Guru.findById(guruId);
 
         if (guru) {
-            const currentTotal = guru.ratingStats?.totalReviews || 0;
-            const currentAvg = guru.ratingStats?.averageRating || 0;
-            const ratingToDelete = review.rating;
-            const ratingKey = `ratingStats.ratingDistribution.${ratingToDelete}`;
+            // Remove the review first
+            await Review.findByIdAndDelete(reviewId);
 
-            // Calculate new average
-            let newTotal = currentTotal - 1;
-            let newAvg = 0;
-            if (newTotal > 0) {
-                const currentSum = currentAvg * currentTotal;
-                newAvg = (currentSum - ratingToDelete) / newTotal;
-            }
-
-            await Guru.findByIdAndUpdate(guruId, {
-                $set: {
-                    "ratingStats.averageRating": newAvg,
-                    "ratingStats.totalReviews": newTotal
-                },
-                $inc: { [ratingKey]: -1 }
-            });
+            // Then recalculate all metrics
+            await updateGuruMetrics(guruId.toString());
+        } else {
+            await Review.findByIdAndDelete(reviewId);
         }
-
-        await Review.findByIdAndDelete(reviewId);
 
         return NextResponse.json({ message: "Review deleted successfully" });
     } catch (error) {

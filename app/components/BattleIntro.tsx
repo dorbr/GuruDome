@@ -174,11 +174,11 @@ export default function BattleIntro({ onComplete, fighter1, fighter2 }: BattleIn
                         className="mb-4 flex flex-col items-center"
                         animate={phase === 'clash' ? { y: -20, scale: 1.1 } : { y: 0, scale: 1 }}
                     >
-                        {fighter1.image ? (
+                        {/* {fighter1.image ? (
                             <Image src={fighter1.image} alt={fighter1.name} width={100} height={100} className="w-24 h-24 rounded-full border-4 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.5)] object-cover bg-zinc-900" />
-                        ) : (
-                            <div className="w-24 h-24 rounded-full border-4 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.5)] bg-blue-900/50 flex items-center justify-center text-3xl">👤</div>
-                        )}
+                        ) : ( */}
+                        <div className="w-24 h-24 rounded-full border-4 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.5)] bg-blue-900/50 flex items-center justify-center text-3xl">👤</div>
+                        {/* )} */}
                         <div className="mt-2 bg-blue-600 text-white text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider shadow-lg transform -skew-x-12">
                             {fighter1.name}
                         </div>
@@ -199,11 +199,11 @@ export default function BattleIntro({ onComplete, fighter1, fighter2 }: BattleIn
                         className="mb-4 flex flex-col items-center"
                         animate={phase === 'clash' ? { y: -20, scale: 1.1 } : { y: 0, scale: 1 }}
                     >
-                        {fighter2.image ? (
+                        {/* {fighter2.image ? (
                             <Image src={fighter2.image} alt={fighter2.name} width={100} height={100} className="w-24 h-24 rounded-full border-4 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.5)] object-cover bg-zinc-900" />
-                        ) : (
-                            <div className="w-24 h-24 rounded-full border-4 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.5)] bg-red-900/50 flex items-center justify-center text-3xl">👤</div>
-                        )}
+                        ) : ( */}
+                        <div className="w-24 h-24 rounded-full border-4 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.5)] bg-red-900/50 flex items-center justify-center text-3xl">👤</div>
+                        {/* )} */}
                         <div className="mt-2 bg-red-600 text-white text-sm font-black px-4 py-1 rounded-full uppercase tracking-wider shadow-lg transform -skew-x-12">
                             {fighter2.name}
                         </div>

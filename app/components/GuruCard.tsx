@@ -9,7 +9,7 @@ import { useLanguage } from './LanguageProvider';
 interface GuruProps {
     _id: string;
     name: string;
-    instagramUrl: string;
+    socialUrl: string;
     profileImage?: string;
     category?: string;
     bio?: string;
@@ -34,8 +34,8 @@ export default function GuruCard({ guru }: { guru: GuruProps }) {
     const rating = guru.ratingStats?.averageRating || 0;
     const reviewCount = guru.ratingStats?.totalReviews || 0;
 
-    const noBio = language === 'he' ? 'אין ביוגרפיה זמינה.' : 'No bio available.';
-    const viewProfile = language === 'he' ? '← צפה בפרופיל' : 'View Profile →';
+    const noBio = guru.bio || t.noBioAvailable;
+    const viewProfile = language === 'he' ? `← ${t.viewProfile}` : `${t.viewProfile} →`;
 
     const categoryDisplay = guru.category && CATEGORY_KEYS[guru.category]
         ? t.categories[CATEGORY_KEYS[guru.category]]
@@ -54,7 +54,7 @@ export default function GuruCard({ guru }: { guru: GuruProps }) {
                                 <GuruAvatar
                                     name={guru.name}
                                     imageUrl={guru.profileImage}
-                                    instagramUrl={guru.instagramUrl}
+                                    socialUrl={guru.socialUrl}
                                 />
 
                                 <div>
@@ -86,7 +86,7 @@ export default function GuruCard({ guru }: { guru: GuruProps }) {
                         </div>
 
                         <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
-                            {guru.bio || noBio}
+                            {noBio}
                         </p>
 
                         <div className="mt-auto pt-4 flex items-center text-xs font-medium text-primary opacity-0 -translate-x-2 rtl:translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 rtl:group-hover:translate-x-0">
@@ -100,7 +100,7 @@ export default function GuruCard({ guru }: { guru: GuruProps }) {
             <Link
                 href={`/battles?preselect=${guru._id}&name=${encodeURIComponent(guru.name)}`}
                 className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/40 text-white backdrop-blur-md opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-primary hover:text-white"
-                title="Compare this Guru"
+                title={t.compareGuru}
                 onClick={(e) => e.stopPropagation()}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m14.5 17.5 3 3L21 17" /><path d="m21 17-3-3 3 3" /><path d="M3 7v11" /><path d="M3 18h18" /><path d="M21 7v11" /><path d="m9.5 6.5-3-3L3.5 6.5" /><path d="m3.5 6.5 3 3-3-3" /></svg>

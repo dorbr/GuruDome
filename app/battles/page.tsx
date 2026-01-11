@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Search, Swords, Users } from 'lucide-react';
 import GuruAvatar from '@/app/components/GuruAvatar';
+import { useLanguage } from '../components/LanguageProvider';
 
 interface GuruSimple {
     _id: string;
@@ -15,6 +16,7 @@ interface GuruSimple {
 
 function BattlesPageContent() {
     const router = useRouter();
+    const { t } = useLanguage();
     const searchParams = useSearchParams();
     const preselectId = searchParams.get('preselect');
 
@@ -75,10 +77,10 @@ function BattlesPageContent() {
                     <Swords className="w-8 h-8 text-primary" />
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
-                    Guru Battles
+                    {t.battlesPage.pageTitle}
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                    Compare stats, ratings, and community trust side-by-side. Who is the real deal?
+                    {t.battlesPage.pageSubtitle}
                 </p>
             </div>
 
@@ -90,7 +92,7 @@ function BattlesPageContent() {
 
                 {/* Fighter 1 Selection */}
                 <div className="bg-card/50 backdrop-blur-sm border border-white/5 rounded-2xl p-6 min-h-[400px] flex flex-col">
-                    <h2 className="text-lg font-semibold mb-4 text-center text-blue-400">Challenger 1</h2>
+                    <h2 className="text-lg font-semibold mb-4 text-center text-blue-400">{t.battlesPage.challenger1}</h2>
 
                     {selectedGuru1 ? (
                         <div className="flex-1 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-300">
@@ -113,7 +115,7 @@ function BattlesPageContent() {
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                                 <input
                                     className="w-full bg-background/50 border border-white/10 rounded-lg py-2 pl-9 pr-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-muted-foreground/50"
-                                    placeholder="Search guru..."
+                                    placeholder={t.battlesPage.searchPlaceholder}
                                     value={searchTerm1}
                                     onChange={(e) => setSearchTerm1(e.target.value)}
                                 />
@@ -142,7 +144,7 @@ function BattlesPageContent() {
 
                 {/* Fighter 2 Selection */}
                 <div className="bg-card/50 backdrop-blur-sm border border-white/5 rounded-2xl p-6 min-h-[400px] flex flex-col">
-                    <h2 className="text-lg font-semibold mb-4 text-center text-red-400">Challenger 2</h2>
+                    <h2 className="text-lg font-semibold mb-4 text-center text-red-400">{t.battlesPage.challenger2}</h2>
 
                     {selectedGuru2 ? (
                         <div className="flex-1 flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-300">
@@ -165,7 +167,7 @@ function BattlesPageContent() {
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                                 <input
                                     className="w-full bg-background/50 border border-white/10 rounded-lg py-2 pl-9 pr-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-muted-foreground/50"
-                                    placeholder="Search guru..."
+                                    placeholder={t.battlesPage.searchPlaceholder}
                                     value={searchTerm2}
                                     onChange={(e) => setSearchTerm2(e.target.value)}
                                 />
@@ -199,7 +201,7 @@ function BattlesPageContent() {
                     disabled={!selectedGuru1 || !selectedGuru2}
                     className="px-12 py-4 bg-primary text-primary-foreground text-xl font-bold rounded-full shadow-[0_0_20px_rgba(var(--primary),0.4)] hover:shadow-[0_0_30px_rgba(var(--primary),0.6)] hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 disabled:shadow-none transition-all duration-300"
                 >
-                    START BATTLE
+                    {t.battlesPage.startBattle}
                 </button>
             </div>
         </div>

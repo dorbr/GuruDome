@@ -38,6 +38,11 @@ export default function AboutPage() {
             <div className="w-full max-w-7xl mx-auto text-center mb-24 relative overflow-hidden">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full pointer-events-none -z-10" />
 
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6 animate-fade-in">
+                    <Users className="w-4 h-4" />
+                    {t.socialInitiative}
+                </div>
+
                 <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-white to-primary animate-fade-in">
                     {t.aboutHeroTitle.split(' ').slice(0, 2).join(' ')} <br /> {t.aboutHeroTitle.split(' ').slice(2).join(' ')}
                 </h1>
@@ -63,13 +68,13 @@ export default function AboutPage() {
 
             {/* Mission Section */}
             <div className="w-full max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center mb-32">
-                <div className="space-y-8 text-center md:text-left">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center md:text-left">{t.wildWestTitle}</h2>
-                    <div className="space-y-6 text-lg text-muted-foreground text-center md:text-left">
-                        <p className="text-center md:text-left mx-auto md:mx-0">
+                <div className="space-y-8 text-center md:text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold text-center md:text-center">{t.wildWestTitle}</h2>
+                    <div className="space-y-6 text-lg text-muted-foreground text-center md:text-center">
+                        <p className="text-center md:text-center mx-auto md:mx-0">
                             {t.wildWestP1}
                         </p>
-                        <p className="text-center md:text-left mx-auto md:mx-0">
+                        <p className="text-center md:text-center mx-auto md:mx-0">
                             {t.wildWestP2}
                             <span className="text-foreground font-medium"> {t.thatEndsNow}</span>
                         </p>
@@ -85,7 +90,7 @@ export default function AboutPage() {
                 </div>
                 <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent blur-3xl -z-10 rounded-full" />
-                    <div className="glass-panel p-8 rounded-2xl border border-white/10 relative overflow-hidden group text-center md:text-left">
+                    <div className="glass-panel p-8 rounded-2xl border border-white/10 relative overflow-hidden group text-center md:text-center">
                         <div className="absolute top-0 right-0 rtl:right-auto rtl:left-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                             <Shield className="w-32 h-32" />
                         </div>

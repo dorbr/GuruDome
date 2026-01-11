@@ -282,6 +282,11 @@ export default function ReviewForm({ guruId, onSuccess, initialData, reviewId }:
                 />
             </div>
 
+            {/* Disclaimer */}
+            <p className="text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg border">
+                {t.reviewFormDisclaimer}
+            </p>
+
             <button
                 type="submit"
                 disabled={isSubmitting}

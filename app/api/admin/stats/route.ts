@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
-import { User, Guru, Review, ReviewReport } from '@/lib/models';
+import { User, Guru, Review, Report } from '@/lib/models';
 import { getUserFromRequest, canAccessAdmin, forbiddenResponse, unauthorizedResponse } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
             User.countDocuments(),
             Guru.countDocuments(),
             Review.countDocuments(),
-            ReviewReport.countDocuments({ status: 'pending' }),
+            Report.countDocuments({ status: 'pending' }),
             User.countDocuments({ isBanned: true }),
             User.countDocuments({
                 createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }

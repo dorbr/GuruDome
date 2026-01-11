@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import { Review, Guru, User } from '@/lib/models';
+import { updateGuruMetrics } from '@/lib/guru';
 import { getUserFromRequest, canAccessAdmin, isAdmin, forbiddenResponse, unauthorizedResponse } from '@/lib/auth';
 import mongoose from 'mongoose';
 
@@ -112,10 +113,14 @@ export async function PATCH(request: NextRequest) {
             return NextResponse.json({ error: 'Review not found' }, { status: 404 });
         }
 
+        let shouldUpdateMetrics = false;
+
         if (action === 'hide') {
             review.isHidden = true;
+            shouldUpdateMetrics = true;
         } else if (action === 'show') {
             review.isHidden = false;
+            shouldUpdateMetrics = true;
         } else if (action === 'clearReports') {
             review.reportCount = 0;
         } else {
@@ -123,6 +128,20 @@ export async function PATCH(request: NextRequest) {
         }
 
         await review.save();
+
+        if (shouldUpdateMetrics && review.guruId) {
+            await updateGuruMetrics(review.guruId.toString(), {
+                deletedReview: action === 'hide' ? review : undefined
+                // Only treat as 'deleted' for history correction if we are hiding it. 
+                // If showing, we technically shouldn't need to correct "history" backwards because that history *should* verify it existed?
+                // Actually if we hide it, we want to remove it from past stats.
+                // If we show it, it's like a new review appeared? Or it existed all along?
+                // For simplicity, let's only fix history on HIDE/DELETE. 
+                // Showing a previously hidden review might just be added as a "new" contribution to current stats, 
+                // back-populating history for a "re-appeared" review is cleaner if we just let it be. 
+                // BUT user specifically asked about DELETED data.
+            });
+        }
 
         return NextResponse.json({ success: true, review });
     } catch (error) {
@@ -163,37 +182,14 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ error: 'Review not found' }, { status: 404 });
         }
 
-        // Update guru stats
-        const guru = await Guru.findById(review.guruId);
-        if (guru) {
-            const currentTotal = guru.ratingStats.totalReviews || 0;
-            const currentAvg = guru.ratingStats.averageRating || 0;
-
-            if (currentTotal > 1) {
-                const newTotal = currentTotal - 1;
-                const newAvg = ((currentAvg * currentTotal) - review.rating) / newTotal;
-
-                const ratingKey = `ratingStats.ratingDistribution.${review.rating}`;
-                await Guru.findByIdAndUpdate(review.guruId, {
-                    $set: {
-                        'ratingStats.averageRating': newAvg,
-                        'ratingStats.totalReviews': newTotal
-                    },
-                    $inc: { [ratingKey]: -1 }
-                });
-            } else {
-                // Last review, reset stats
-                await Guru.findByIdAndUpdate(review.guruId, {
-                    $set: {
-                        'ratingStats.averageRating': 0,
-                        'ratingStats.totalReviews': 0,
-                        'ratingStats.ratingDistribution': { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
-                    }
-                });
-            }
-        }
+        const guruId = review.guruId;
 
         await Review.findByIdAndDelete(reviewId);
+
+        // Update guru stats
+        if (guruId) {
+            await updateGuruMetrics(guruId.toString(), { deletedReview: review });
+        }
 
         return NextResponse.json({ success: true, message: 'Review deleted' });
     } catch (error) {

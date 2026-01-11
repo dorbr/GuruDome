@@ -160,7 +160,7 @@ export default function BugReporter() {
                     "flex items-center justify-center bg-card hover:bg-card/90 text-foreground border border-border shadow-lg transition-all duration-300 group",
                     isOpen ? "h-12 w-12 rounded-full rotate-90" : "h-12 rounded-full px-4 gap-2"
                 )}
-                aria-label="Report a bug"
+                aria-label={t.reportBug}
             >
                 {isOpen ? (
                     <X className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />

@@ -103,7 +103,7 @@ export default function MobileMenu() {
                         )}
                     >
                         <Shield className="w-5 h-5" />
-                        <span className="text-[10px] font-medium">Admin</span>
+                        <span className="text-[10px] font-medium">{t.adminMenu}</span>
                     </Link>
                 ) : user ? (
                     <Link

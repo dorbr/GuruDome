@@ -18,7 +18,7 @@ export default function ContactPage() {
         setStatus("submitting");
 
         try {
-            const response = await fetch("https://formsubmit.co/dbaraby5@gmail.com", {
+            const response = await fetch("https://formsubmit.co/gurudome1@gmail.com", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

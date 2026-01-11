@@ -3,7 +3,7 @@ import { Guru, Review } from '@/lib/models';
 import mongoose from 'mongoose';
 import { generateGuruAnalysis } from './ai';
 
-export async function updateGuruMetrics(guruId: string) {
+export async function updateGuruMetrics(guruId: string, context?: { deletedReview?: any }) {
     await connectToDatabase();
 
     // Aggregate reviews
@@ -52,20 +52,79 @@ export async function updateGuruMetrics(guruId: string) {
             'performanceMetrics.authenticity': s.avgAuth || 0,
         };
 
-        if (shouldAddHistory) {
-            updateData.$push = {
-                performanceHistory: {
-                    date: new Date(),
-                    totalReviews: s.count,
-                    averageRating: s.avgRating,
-                    trustworthiness: s.avgTrust || 0,
-                    valueForMoney: s.avgValue || 0,
-                    authenticity: s.avgAuth || 0,
+        // Fix history if a review was deleted or hidden
+        if (context?.deletedReview && currentGuru.performanceHistory && currentGuru.performanceHistory.length > 0) {
+            const deleted = context.deletedReview;
+            const deletedDate = new Date(deleted.createdAt);
+
+            const updatedHistory = currentGuru.performanceHistory.map((entry: any) => {
+                const entryDate = new Date(entry.date);
+
+                if (entryDate > deletedDate) {
+                    // This entry included the deleted review, so we must remove it
+                    const oldTotal = entry.totalReviews;
+                    if (oldTotal <= 1) {
+                        return null; // Was the only review? Remove entry.
+                    }
+
+                    const newTotal = oldTotal - 1;
+                    const newAvg = ((entry.averageRating * oldTotal) - deleted.rating) / newTotal;
+
+                    // Optional: Try to adjust other metrics if they exist
+                    const adjustMetric = (avg: number, val: number) =>
+                        val ? ((avg * oldTotal) - val) / newTotal : avg;
+
+                    return {
+                        date: entry.date, // Keep original date
+                        _id: entry._id, // Keep ID if exists
+                        totalReviews: newTotal,
+                        averageRating: newAvg,
+                        trustworthiness: adjustMetric(entry.trustworthiness, deleted.detailedRatings?.trustworthiness),
+                        valueForMoney: adjustMetric(entry.valueForMoney, deleted.detailedRatings?.valueForMoney),
+                        authenticity: adjustMetric(entry.authenticity, deleted.detailedRatings?.authenticity),
+                    };
                 }
+                return entry;
+            }).filter(Boolean); // Remove nulls
+
+            if (updatedHistory.length !== currentGuru.performanceHistory.length || updatedHistory.some((h: any, i: number) => h.totalReviews !== currentGuru.performanceHistory[i].totalReviews)) {
+                updateData.performanceHistory = updatedHistory;
+            }
+        }
+
+        if (shouldAddHistory) {
+            // Push new entry (using the potentially updated history as base if we were smart, but here we push to DB array)
+            // If we modified history above, we replaced the whole array in updateData.performanceHistory.
+            // So we should append to that array if it exists, or $push if it doesn't.
+
+            const newEntry = {
+                date: new Date(),
+                totalReviews: s.count,
+                averageRating: s.avgRating,
+                trustworthiness: s.avgTrust || 0,
+                valueForMoney: s.avgValue || 0,
+                authenticity: s.avgAuth || 0,
             };
+
+            if (updateData.performanceHistory) {
+                updateData.performanceHistory.push(newEntry);
+            } else {
+                updateData.$push = { performanceHistory: newEntry };
+            }
         }
 
         await Guru.findByIdAndUpdate(guruId, updateData);
+    } else {
+        // No reviews left - reset stats
+        await Guru.findByIdAndUpdate(guruId, {
+            'ratingStats.averageRating': 0,
+            'ratingStats.totalReviews': 0,
+            'ratingStats.ratingDistribution': { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+            'performanceMetrics.trustworthiness': 0,
+            'performanceMetrics.valueForMoney': 0,
+            'performanceMetrics.authenticity': 0,
+            'performanceHistory': []
+        });
     }
 }
 

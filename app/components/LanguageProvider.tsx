@@ -24,6 +24,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         const saved = localStorage.getItem('language') as Language | null;
         if (saved && (saved === 'en' || saved === 'he')) {
             setLanguageState(saved);
+        } else {
+            // If no saved language, check system language
+            const systemLang = navigator.language.split('-')[0];
+            if (systemLang === 'he') {
+                setLanguageState('he');
+            }
+            // 'en' is default so no need to explicitly set it if system is not 'he'
+            // effectively 'en' is the fallback
         }
         setMounted(true);
     }, []);

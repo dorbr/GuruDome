@@ -8,6 +8,7 @@ import GuruAvatar from '@/app/components/GuruAvatar';
 import BattleMetrics from '@/app/components/BattleMetrics';
 import BattleIntro from '@/app/components/BattleIntro';
 import { calculateReputationScore, ReputationAnalysis } from '@/lib/battleUtils';
+import { useLanguage } from '@/app/components/LanguageProvider';
 
 interface Guru {
     _id: string;
@@ -30,6 +31,7 @@ export default function UserBattleClient({ id1, id2 }: { id1: string; id2: strin
     const [guru2, setGuru2] = useState<GuruWithAnalysis | null>(null);
     const [loading, setLoading] = useState(true);
     const [showIntro, setShowIntro] = useState(true);
+    const { t } = useLanguage();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,8 +83,8 @@ export default function UserBattleClient({ id1, id2 }: { id1: string; id2: strin
     if (!guru1 || !guru2) {
         return (
             <div className="min-h-screen pt-24 text-center">
-                <h1 className="text-2xl font-bold mb-4">Fighter not found</h1>
-                <Link href="/battles" className="text-primary hover:underline">Return to Arena selection</Link>
+                <h1 className="text-2xl font-bold mb-4">{t.battlesPage.fighterNotFound}</h1>
+                <Link href="/battles" className="text-primary hover:underline">{t.battlesPage.returnToArena}</Link>
             </div>
         );
     }
@@ -149,17 +151,17 @@ export default function UserBattleClient({ id1, id2 }: { id1: string; id2: strin
             <div className="container mx-auto px-4 max-w-5xl">
                 <Link href="/battles" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-8 transition-colors">
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Arena
+                    {t.battlesPage.backToArena}
                 </Link>
 
                 {/* Header */}
                 <div className="text-center mb-12">
                     <div className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm font-medium text-muted-foreground mb-4">
-                        Tale of the Tape
+                        {t.battlesPage.taleOfTheTape}
                     </div>
                     <h1 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter">
                         <span className="text-blue-500">{guru1.name}</span>
-                        <span className="mx-4 text-muted-foreground/30 text-2xl not-italic font-normal">VS</span>
+                        <span className="mx-4 text-muted-foreground/30 text-2xl not-italic font-normal">{t.battlesPage.vs}</span>
                         <span className="text-red-500">{guru2.name}</span>
                     </h1>
                 </div>
@@ -174,7 +176,7 @@ export default function UserBattleClient({ id1, id2 }: { id1: string; id2: strin
                                 <GuruAvatar name={guru1.name} imageUrl={guru1.profileImage} size="xl" className={`w-24 h-24 md:w-32 md:h-32 shadow-xl ring-4 ${winnerIndex === 1 ? 'ring-blue-500 shadow-blue-500/50' : 'ring-blue-500/20'}`} />
                                 {winnerIndex === 1 && (
                                     <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-full flex items-center shadow-lg whitespace-nowrap z-10 animate-bounce">
-                                        <Trophy className="w-3 h-3 mr-1" /> WINNER
+                                        <Trophy className="w-3 h-3 mr-1" /> {t.battlesPage.winner}
                                     </div>
                                 )}
                             </div>
@@ -187,14 +189,14 @@ export default function UserBattleClient({ id1, id2 }: { id1: string; id2: strin
 
                             <div className="grid grid-cols-2 gap-2 w-full text-center mt-2">
                                 <div className="bg-white/5 rounded-lg p-2">
-                                    <div className="text-xs text-muted-foreground">Trend</div>
+                                    <div className="text-xs text-muted-foreground">{t.battlesPage.trend}</div>
                                     <div className="flex items-center justify-center gap-1 font-medium capitalize">
                                         <TrendIcon trend={guru1.analysis.trend} />
                                         {guru1.analysis.trend}
                                     </div>
                                 </div>
                                 <div className="bg-white/5 rounded-lg p-2">
-                                    <div className="text-xs text-muted-foreground">Quality</div>
+                                    <div className="text-xs text-muted-foreground">{t.battlesPage.quality}</div>
                                     <div className="flex items-center justify-center gap-1 font-medium capitalize">
                                         {guru1.analysis.quality === 'high' && <BadgeCheck className="w-3 h-3 text-blue-400" />}
                                         {guru1.analysis.quality}
@@ -210,7 +212,7 @@ export default function UserBattleClient({ id1, id2 }: { id1: string; id2: strin
                                 <GuruAvatar name={guru2.name} imageUrl={guru2.profileImage} size="xl" className={`w-24 h-24 md:w-32 md:h-32 shadow-xl ring-4 ${winnerIndex === 2 ? 'ring-red-500 shadow-red-500/50' : 'ring-red-500/20'}`} />
                                 {winnerIndex === 2 && (
                                     <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-full flex items-center shadow-lg whitespace-nowrap z-10 animate-bounce">
-                                        <Trophy className="w-3 h-3 mr-1" /> WINNER
+                                        <Trophy className="w-3 h-3 mr-1" /> {t.battlesPage.winner}
                                     </div>
                                 )}
                             </div>
@@ -223,14 +225,14 @@ export default function UserBattleClient({ id1, id2 }: { id1: string; id2: strin
 
                             <div className="grid grid-cols-2 gap-2 w-full text-center mt-2">
                                 <div className="bg-white/5 rounded-lg p-2">
-                                    <div className="text-xs text-muted-foreground">Trend</div>
+                                    <div className="text-xs text-muted-foreground">{t.battlesPage.trend}</div>
                                     <div className="flex items-center justify-center gap-1 font-medium capitalize">
                                         <TrendIcon trend={guru2.analysis.trend} />
                                         {guru2.analysis.trend}
                                     </div>
                                 </div>
                                 <div className="bg-white/5 rounded-lg p-2">
-                                    <div className="text-xs text-muted-foreground">Quality</div>
+                                    <div className="text-xs text-muted-foreground">{t.battlesPage.quality}</div>
                                     <div className="flex items-center justify-center gap-1 font-medium capitalize">
                                         {guru2.analysis.quality === 'high' && <BadgeCheck className="w-3 h-3 text-red-400" />}
                                         {guru2.analysis.quality}
@@ -243,37 +245,37 @@ export default function UserBattleClient({ id1, id2 }: { id1: string; id2: strin
                     {/* Stats Comparison */}
                     <div className="p-6 md:p-8 bg-background/50">
                         <BattleMetrics
-                            label="Reputation Score"
+                            label={t.battlesPage.metricLabels.reputation}
                             value1={score1}
                             value2={score2}
                             betterIndex={scoreWin}
                             icon={<span className="text-purple-500 font-black text-lg">⚠️</span>}
                         />
                         <BattleMetrics
-                            label="Raw Rating"
+                            label={t.battlesPage.metricLabels.rating}
                             value1={guru1.ratingStats?.averageRating.toFixed(1) || "0.0"}
                             value2={guru2.ratingStats?.averageRating.toFixed(1) || "0.0"}
                             betterIndex={0}
                             icon={<span className="text-yellow-500">★</span>}
                         />
                         <BattleMetrics
-                            label="Total Reviews"
+                            label={t.battlesPage.metricLabels.reviews}
                             value1={reviews1}
                             value2={reviews2}
                             betterIndex={reviewsWin}
                         />
                         <BattleMetrics
-                            label="Verified?"
+                            label={t.battlesPage.metricLabels.verified}
                             // Determine verified by quality for now or real purchase data if we add that flag to guru
-                            value1={guru1.analysis.quality === 'high' ? 'High Trust' : 'Normal'}
-                            value2={guru2.analysis.quality === 'high' ? 'High Trust' : 'Normal'}
+                            value1={guru1.analysis.quality === 'high' ? t.battlesPage.highTrust : t.battlesPage.normal}
+                            value2={guru2.analysis.quality === 'high' ? t.battlesPage.highTrust : t.battlesPage.normal}
                             betterIndex={guru1.analysis.quality === 'high' && guru2.analysis.quality !== 'high' ? 1 : guru2.analysis.quality === 'high' && guru1.analysis.quality !== 'high' ? 2 : 0}
                         />
                     </div>
                 </div>
 
                 <div className="mt-8 text-center text-sm text-muted-foreground">
-                    <p>* Reputation Score is calculated based on review recency, quality, and verification status.</p>
+                    <p>{t.battlesPage.reputationDisclaimer}</p>
                 </div>
             </div>
         </div>

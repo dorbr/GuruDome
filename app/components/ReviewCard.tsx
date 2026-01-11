@@ -33,23 +33,23 @@ export default function ReviewCard({ review }: { review: any }) {
                             {review.userId.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex flex-col gap-1">
-                            <span className="font-semibold text-sm">User {review.userId.slice(0, 4)}...</span>
+                            <span className="font-semibold text-sm">{t.userPrefix} {review.userId.slice(0, 4)}...</span>
 
                             <div className="flex flex-wrap items-center gap-2">
                                 {review.isPurchased && (
                                     <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-2 py-0.5 text-[10px] sm:text-xs font-medium text-green-700 dark:border-green-800 dark:bg-green-900/30 dark:text-green-400">
-                                        Purchased
+                                        {t.verifiedPurchased}
                                     </span>
                                 )}
                                 {review.isScam && (
                                     <span className="inline-flex items-center rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-[10px] sm:text-xs font-medium text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
-                                        Scam Report
+                                        {t.scamReport}
                                     </span>
                                 )}
                                 {review.aiAnalysis?.isFake && (
                                     <span className="inline-flex items-center gap-1 rounded-full border border-orange-200 bg-orange-50 px-2 py-0.5 text-[10px] sm:text-xs font-medium text-orange-700 dark:border-orange-800 dark:bg-orange-900/30 dark:text-orange-400" title={review.aiAnalysis.reasoning}>
                                         <span>🤖</span>
-                                        AI Flagged
+                                        {t.aiFlagged}
                                     </span>
                                 )}
                             </div>
@@ -101,7 +101,7 @@ export default function ReviewCard({ review }: { review: any }) {
                 {review.detailedRatings && (
                     <div className="mt-4 flex flex-wrap justify-center gap-4 pt-4 border-t border-border/50">
                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Trust</span>
+                            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{t.trust}</span>
                             <div className="flex text-yellow-500/80">
                                 {[1, 2, 3, 4, 5].map(star => (
                                     <Star key={star} className={`h-3 w-3 ${star <= (review.detailedRatings.trustworthiness || review.rating) ? 'fill-current' : 'text-muted-foreground/20'}`} />
@@ -109,7 +109,7 @@ export default function ReviewCard({ review }: { review: any }) {
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Value</span>
+                            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{t.value}</span>
                             <div className="flex text-yellow-500/80">
                                 {[1, 2, 3, 4, 5].map(star => (
                                     <Star key={star} className={`h-3 w-3 ${star <= (review.detailedRatings.valueForMoney || review.rating) ? 'fill-current' : 'text-muted-foreground/20'}`} />
@@ -117,7 +117,7 @@ export default function ReviewCard({ review }: { review: any }) {
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Authentic</span>
+                            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{t.authentic}</span>
                             <div className="flex text-yellow-500/80">
                                 {[1, 2, 3, 4, 5].map(star => (
                                     <Star key={star} className={`h-3 w-3 ${star <= (review.detailedRatings.authenticity || review.rating) ? 'fill-current' : 'text-muted-foreground/20'}`} />
@@ -138,7 +138,8 @@ export default function ReviewCard({ review }: { review: any }) {
 
             {/* Report Modal */}
             <ReportModal
-                reviewId={review._id}
+                targetId={review._id}
+                targetType="review"
                 isOpen={showReportModal}
                 onClose={() => setShowReportModal(false)}
             />

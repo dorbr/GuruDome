@@ -6,14 +6,15 @@ import { auth } from '@/lib/firebase';
 import { useLanguage } from './LanguageProvider';
 
 interface ReportModalProps {
-    reviewId: string;
+    targetId: string;
+    targetType: 'review' | 'guru';
     isOpen: boolean;
     onClose: () => void;
 }
 
-type ReportReason = 'false_information' | 'offensive_content' | 'spam' | 'other';
+type ReportReason = 'defamation' | 'privacy' | 'impersonation' | 'copyright' | 'hate_speech' | 'spam' | 'other';
 
-export default function ReportModal({ reviewId, isOpen, onClose }: ReportModalProps) {
+export default function ReportModal({ targetId, targetType, isOpen, onClose }: ReportModalProps) {
     const { t } = useLanguage();
     const [reason, setReason] = useState<ReportReason | ''>('');
     const [description, setDescription] = useState('');
@@ -33,10 +34,12 @@ export default function ReportModal({ reviewId, isOpen, onClose }: ReportModalPr
         setErrorMessage('');
 
         try {
-            const res = await fetch(`/api/reviews/${reviewId}/report`, {
+            const res = await fetch('/api/reports', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    targetId,
+                    targetType,
                     reporterId: user.uid,
                     reason,
                     description: description.trim() || undefined
@@ -46,7 +49,7 @@ export default function ReportModal({ reviewId, isOpen, onClose }: ReportModalPr
             const data = await res.json();
 
             if (!res.ok) {
-                if (data.error === 'You have already reported this review') {
+                if (data.error === 'You have already reported this content') {
                     setSubmitState('already_reported');
                 } else {
                     setSubmitState('error');
@@ -72,7 +75,7 @@ export default function ReportModal({ reviewId, isOpen, onClose }: ReportModalPr
         onClose();
     };
 
-    const reasons: ReportReason[] = ['false_information', 'offensive_content', 'spam', 'other'];
+    const reasons: ReportReason[] = ['defamation', 'privacy', 'impersonation', 'copyright', 'hate_speech', 'spam', 'other'];
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -137,7 +140,7 @@ export default function ReportModal({ reviewId, isOpen, onClose }: ReportModalPr
                             <div className="p-2 rounded-full bg-red-100 dark:bg-red-900/30">
                                 <Flag className="h-5 w-5 text-red-600 dark:text-red-400" />
                             </div>
-                            <h3 className="text-xl font-bold">{t.reportReview}</h3>
+                            <h3 className="text-xl font-bold">{targetType === 'review' ? t.reportReview : t.reportGuru}</h3>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -155,7 +158,7 @@ export default function ReportModal({ reviewId, isOpen, onClose }: ReportModalPr
                                     <option value="">{t.selectRating}</option>
                                     {reasons.map((r) => (
                                         <option key={r} value={r}>
-                                            {t.reportReasons[r]}
+                                            {t.reportReasons ? t.reportReasons[r] : r}
                                         </option>
                                     ))}
                                 </select>
