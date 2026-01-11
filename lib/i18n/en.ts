@@ -121,6 +121,7 @@ export const en = {
     lastUpdated: 'Last updated:',
     noAIAnalysis: 'No AI analysis available yet. Data is generated periodically.',
     noDataYet: 'Not enough data for history chart.',
+    updatesEvery24h: 'Updates every 24h',
     basedOnReviews: 'Based on {count} user reviews',
     performance: 'Performance Tracking',
     history: 'Progress Over Time',

@@ -123,6 +123,7 @@ export const he: TranslationKeys = {
     lastUpdated: 'עודכן לאחרונה:',
     noAIAnalysis: 'אין ניתוח AI זמין עדיין. הנתונים מתעדכנים תקופתית.',
     noDataYet: 'אין מספיק נתונים לגרף היסטוריה.',
+    updatesEvery24h: 'מתעדכן כל 24 שעות',
     basedOnReviews: 'מבוסס על {count} ביקורות משתמשים',
     performance: 'מעקב ביצועים',
     history: 'התקדמות לאורך זמן',

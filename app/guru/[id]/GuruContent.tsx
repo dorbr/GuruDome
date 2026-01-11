@@ -81,18 +81,24 @@ export default function GuruContent({ guru, reviews, guruId }: GuruContentProps)
                         {guru.aiSummary ? (
                             <div className="space-y-4 text-sm leading-relaxed">
                                 <div>
-                                    <h3 className="font-semibold mb-1 text-foreground">Summary</h3>
+                                    <h3 className="font-semibold mb-1 text-foreground">{t.summary || 'Summary'}</h3>
                                     <p className="text-muted-foreground">{guru.aiSummary.summary}</p>
                                 </div>
                                 <div className="p-4 bg-muted/50 rounded-lg border border-dashed border-red-200 dark:border-red-900/50">
                                     <h3 className="font-semibold mb-1 text-foreground flex items-center gap-2">
-                                        Background Check Report
+                                        {t.backgroundCheckReport || 'Background Check Report'}
                                     </h3>
                                     <p className="text-muted-foreground">{guru.aiSummary.backgroundCheck}</p>
                                 </div>
-                                <p className="text-xs text-muted-foreground pt-2">
-                                    Last updated: {new Date(guru.aiSummary.lastUpdated).toLocaleDateString()}
-                                </p>
+                                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground pt-2">
+                                    <p>
+                                        {t.lastUpdated || 'Last updated:'} {new Date(guru.aiSummary.lastUpdated).toLocaleDateString()}
+                                    </p>
+                                    <span className="hidden sm:inline">•</span>
+                                    <p className="bg-secondary/50 px-2 py-0.5 rounded-full">
+                                        {t.updatesEvery24h || 'Updates every 24h'}
+                                    </p>
+                                </div>
                             </div>
                         ) : (
                             <div className="text-center py-8 text-muted-foreground">

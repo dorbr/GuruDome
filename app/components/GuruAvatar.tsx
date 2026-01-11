@@ -25,7 +25,7 @@ export default function GuruAvatar({ name, imageUrl, className, size = 'md' }: G
 
     return (
         <div className={`relative rounded-full overflow-hidden bg-primary/10 flex-shrink-0 border border-border/50 flex items-center justify-center ${finalClassName}`}>
-            {imageUrl && !imageError ? (
+            {/* {imageUrl && !imageError ? (
                 <Image
                     src={imageUrl}
                     alt={name}
@@ -34,11 +34,11 @@ export default function GuruAvatar({ name, imageUrl, className, size = 'md' }: G
                     onError={() => setImageError(true)}
                     unoptimized
                 />
-            ) : (
-                <div className="font-bold text-primary flex items-center justify-center h-full w-full" style={{ fontSize: '1.2em' }}>
-                    {name.charAt(0).toUpperCase()}
-                </div>
-            )}
+            ) : ( */}
+            <div className="font-bold text-primary flex items-center justify-center h-full w-full" style={{ fontSize: '1.2em' }}>
+                {name.charAt(0).toUpperCase()}
+            </div>
+            {/* )} */}
         </div>
     );
 }
