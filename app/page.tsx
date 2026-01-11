@@ -1,5 +1,5 @@
 
-import { Guru } from '@/lib/models';
+import { Guru, Review } from '@/lib/models';
 import connectToDatabase from '@/lib/db';
 import HomeContent from './components/HomeContent';
 
@@ -88,11 +88,40 @@ async function getScammers() {
 
 async function getTrendingGurus() {
   await connectToDatabase();
-  // Trending: Sort by createdAt (desc)
-  const gurus = await Guru.find({})
+  // Trending: Sort by latest review date
+  // 1. Get the most recent reviews
+  const recentReviews = await Review.find({})
     .sort({ createdAt: -1 })
-    .limit(4);
-  return JSON.parse(JSON.stringify(gurus));
+    .limit(20) // Limit to 20 to find enough unique gurus
+    .populate('guruId'); // Populate to get guru details
+
+  // 2. Extract unique gurus
+  const uniqueGurus = new Map();
+  for (const review of recentReviews) {
+    if (review.guruId && !uniqueGurus.has(review.guruId._id.toString())) {
+      uniqueGurus.set(review.guruId._id.toString(), review.guruId);
+      if (uniqueGurus.size >= 4) break;
+    }
+  }
+
+  // 3. Fallback: If we don't have enough trending gurus, fill with newest
+  if (uniqueGurus.size < 4) {
+    const existingIds = Array.from(uniqueGurus.keys());
+    const needed = 4 - uniqueGurus.size;
+
+    const newestGurus = await Guru.find({
+      _id: { $nin: existingIds }
+    })
+      .sort({ createdAt: -1 })
+      .limit(needed);
+
+    for (const guru of newestGurus) {
+      uniqueGurus.set(guru._id.toString(), guru);
+    }
+  }
+
+  // 4. Return the gurus
+  return JSON.parse(JSON.stringify(Array.from(uniqueGurus.values())));
 }
 
 export default async function Home(props: {
