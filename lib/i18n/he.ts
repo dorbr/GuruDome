@@ -68,7 +68,7 @@ export const he: TranslationKeys = {
     wallOfShameSubtitle: 'פרופילים בדירוג נמוך שסומנו כחשודים.',
 
     // Footer
-    copyright: '© {year} GuruDome. נבנה על ידי dorbaraby.',
+    copyright: '© {year} GuruDome. נבנה על ידי drbrby.',
     privacyPolicy: 'מדיניות פרטיות',
     termsOfService: 'תנאי שימוש',
 

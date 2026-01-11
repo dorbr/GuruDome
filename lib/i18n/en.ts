@@ -66,7 +66,7 @@ export const en = {
     wallOfShameSubtitle: 'Low-rated profiles flagged for suspicious activity.',
 
     // Footer
-    copyright: '© {year} GuruDome. Built by dorbaraby.',
+    copyright: '© {year} GuruDome. Built by drbrby.',
     privacyPolicy: 'Privacy Policy',
     termsOfService: 'Terms of Service',
 
