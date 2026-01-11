@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import MobileMenu from "./components/MobileMenu";
 import BugReporter from "./components/BugReporter";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +41,9 @@ export default function RootLayout({
             <Footer />
             <div className="h-24 md:hidden" aria-hidden="true" />
             <MobileMenu />
+
             <BugReporter />
+            <GoogleAnalytics />
           </AuthProvider>
         </LanguageProvider>
       </body>
