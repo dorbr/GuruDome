@@ -81,7 +81,7 @@ export default function ReviewModal({ guruId, className }: { guruId: string; cla
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
                     <div
-                        className="relative w-full max-w-lg rounded-xl bg-card p-6 shadow-2xl animate-in zoom-in-95 duration-200"
+                        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl bg-card p-6 shadow-2xl animate-in zoom-in-95 duration-200"
                         role="dialog"
                         aria-modal="true"
                     >

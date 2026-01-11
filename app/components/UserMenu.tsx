@@ -2,11 +2,13 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from './AuthProvider';
-import { LogOut, User as UserIcon, LogIn, Settings, Shield, Star } from 'lucide-react';
+import { useLanguage } from './LanguageProvider';
+import { LogOut, User as UserIcon, LogIn, Settings, Shield, Star, Info } from 'lucide-react';
 import Link from 'next/link';
 
 export default function UserMenu() {
     const { user, loading, logout, openLoginModal, isModerator, userRole } = useAuth();
+    const { t } = useLanguage();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -73,7 +75,7 @@ export default function UserMenu() {
             </button>
 
             {isDropdownOpen && (
-                <div className="absolute right-0 top-full mt-2 w-56 rounded-xl border bg-card p-2 shadow-lg animate-in fade-in zoom-in-95 duration-200 z-50">
+                <div className="absolute end-0 top-full mt-2 w-56 rounded-xl border bg-card p-2 shadow-lg animate-in fade-in zoom-in-95 duration-200 z-50">
                     <div className="px-2 py-1.5 text-sm font-semibold border-b mb-1 flex items-center justify-between">
                         <span>My Account</span>
                         {userRole !== 'user' && (
@@ -96,7 +98,14 @@ export default function UserMenu() {
                             Admin Panel
                         </Link>
                     )}
-
+                    <Link
+                        href="/about"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="w-full flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-accent transition-colors"
+                    >
+                        <Info className="h-4 w-4" />
+                        {t.about}
+                    </Link>
                     <Link
                         href="/my-reviews"
                         onClick={() => setIsDropdownOpen(false)}

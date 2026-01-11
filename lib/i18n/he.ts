@@ -4,6 +4,7 @@ export const he: TranslationKeys = {
     // Header
     home: 'בית',
     about: 'אודות',
+    battles: 'קרבות',
     contact: 'צור קשר',
     addGuru: 'הוסף גורו',
     signIn: 'התחברות',
@@ -97,7 +98,7 @@ export const he: TranslationKeys = {
     wildWestP1: 'כל יום, מיליוני אנשים מחפשים הדרכה כיצד לבנות עושר, בריאות ואושר. וכל יום, אינספור נוכלים מנצלים את התקווה הזו.',
     wildWestP2: 'צילומי מסך מזויפים, למבורגיני שכורות ותגובות בוטים הפכו את זה לבלתי אפשרי לדעת מי לגיטימי.',
     thatEndsNow: 'זה נגמר עכשיו.',
-    verifiedData: 'נתונים מאומתים',
+    verifiedData: 'נתונים אמינים',
     realReviews: 'ביקורות אמיתיות',
     scamAlerts: 'התראות הונאה',
     performanceTracking: 'מעקב ביצועים',
@@ -112,6 +113,20 @@ export const he: TranslationKeys = {
     performanceTrackingDesc: 'אנחנו עוקבים אחרי התוצאות בפועל של אסטרטגיות שמלמדים גורואים כדי לראות אם הן מחזיקות מעמד.',
     readyToFind: 'מוכנים למצוא מנטורים אמיתיים?',
     readyToFindDesc: 'הצטרפו לאלפים אחרים ששומרים על המסע שלהם ולומדים מהטובים ביותר.',
+
+    // Guru Page AI & Performance
+    aiBackgroundCheck: 'סיכום AI ובדיקת רקע',
+    beta: 'בטא',
+    aiGenerated: 'נוצר ע"י AI',
+    summary: 'סיכום',
+    backgroundCheckReport: 'דוח בדיקת רקע',
+    lastUpdated: 'עודכן לאחרונה:',
+    noAIAnalysis: 'אין ניתוח AI זמין עדיין. הנתונים מתעדכנים תקופתית.',
+    noDataYet: 'אין מספיק נתונים לגרף היסטוריה.',
+    basedOnReviews: 'מבוסס על {count} ביקורות משתמשים',
+    performance: 'מעקב ביצועים',
+    history: 'התקדמות לאורך זמן',
+    historyDescription: 'דמיין כיצד המוניטין של הגורו התפתח בהתבסס על ביקורות משתמשים.',
 
     // Contact Page
     getInTouch: 'צור קשר',
@@ -222,6 +237,13 @@ export const he: TranslationKeys = {
     termsContactTitle: '7. צור קשר',
     termsContactText: 'אם יש לך שאלות לגבי תנאים אלה, אנא צור קשר איתנו בכתובת support@gurudome.com.',
 
+    // Bug Report
+    reportBug: 'דווח על באג',
+    bugDescription: 'תאר את הבאג...',
+    submitBug: 'שלח דיווח',
+    bugReported: 'הבאג דווח',
+    bugReportedDesc: 'תודה על המשוב! אנחנו נבדוק את הנושא.',
+
     // Admin Panel
     admin: {
         title: 'לוח בקרה',
@@ -312,5 +334,17 @@ export const he: TranslationKeys = {
             other: 'אחר',
         },
         noReportsFound: 'לא נמצאו דיווחים',
+
+        // Bugs
+        bugReports: 'דיווחים על באגים',
+        manageBugs: 'ניהול באגים ודיווחים טכניים',
+        pageUrl: 'כתובת דף',
+        userAgent: 'דפדפן',
+        status: 'סטטוס',
+        reporter: 'מדווח',
+        screenshot: 'צילום מסך',
+        noBugsFound: 'לא נמצאו דיווחים',
+        markResolved: 'סמן כטופל',
+        markDismissed: 'דחה',
     },
 };

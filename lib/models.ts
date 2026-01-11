@@ -42,6 +42,24 @@ const GuruSchema = new Schema({
             5: { type: Number, default: 0 },
         }
     },
+    performanceMetrics: {
+        trustworthiness: { type: Number, default: 0 }, // 0-5
+        valueForMoney: { type: Number, default: 0 },   // 0-5
+        authenticity: { type: Number, default: 0 },    // 0-5
+    },
+    aiSummary: {
+        summary: { type: String }, // General summary of reviews
+        backgroundCheck: { type: String }, // Potential red flags / scam warnings
+        lastUpdated: { type: Date },
+    },
+    performanceHistory: [{
+        date: { type: Date, default: Date.now },
+        totalReviews: { type: Number },
+        averageRating: { type: Number },
+        trustworthiness: { type: Number },
+        valueForMoney: { type: Number },
+        authenticity: { type: Number },
+    }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
@@ -57,6 +75,12 @@ const ReviewSchema = new Schema({
         trustworthiness: { type: Number, min: 1, max: 5 },
         valueForMoney: { type: Number, min: 1, max: 5 },
         authenticity: { type: Number, min: 1, max: 5 },
+    },
+    aiAnalysis: {
+        isFake: { type: Boolean },
+        confidence: { type: Number }, // 0-100
+        reasoning: { type: String },
+        analyzedAt: { type: Date }
     },
     isScam: { type: Boolean, default: false },
     isPurchased: { type: Boolean, default: false },
@@ -84,17 +108,34 @@ const ReviewReportSchema = new Schema({
     createdAt: { type: Date, default: Date.now },
 });
 
+// Bug Report Schema - for tracking application bugs
+const BugReportSchema = new Schema({
+    reporterId: { type: String }, // Optional, logged-in user ID
+    description: { type: String, required: true },
+    screenshotUrl: { type: String }, // Optional screenshot URL
+    pageUrl: { type: String }, // Page where the bug was reported
+    userAgent: { type: String }, // Browser info
+    status: {
+        type: String,
+        enum: ['pending', 'reviewed', 'resolved', 'dismissed'],
+        default: 'pending'
+    },
+    createdAt: { type: Date, default: Date.now },
+});
+
 // Prevent model overwrite upon recompilation
 if (process.env.NODE_ENV === 'development' && models.Review) {
     delete models.Review;
     delete models.Guru;
     delete models.User;
     delete models.ReviewReport;
+    delete models.BugReport;
 }
 
 const User = models.User || model('User', UserSchema);
 const Guru = models.Guru || model('Guru', GuruSchema);
 const Review = models.Review || model('Review', ReviewSchema);
 const ReviewReport = models.ReviewReport || model('ReviewReport', ReviewReportSchema);
+const BugReport = models.BugReport || model('BugReport', BugReportSchema);
 
-export { User, Guru, Review, ReviewReport };
+export { User, Guru, Review, ReviewReport, BugReport };

@@ -7,8 +7,7 @@ import GuruCard from './GuruCard';
 import GuruSection from './GuruSection';
 import { useLanguage } from './LanguageProvider';
 import Link from 'next/link';
-import { Plus } from 'lucide-react';
-
+import { Plus, Info } from 'lucide-react';
 interface HomeContentProps {
     gurus: any[];
     experts: any[];
@@ -43,8 +42,7 @@ export default function HomeContent({ gurus, experts, scammers, trending, isSear
                 <div className="w-full max-w-xl mt-12 relative z-10 animate-in slide-in-from-bottom-4 duration-1000 delay-200">
                     <Search />
                 </div>
-
-                <div className="mt-8 relative z-10 animate-in slide-in-from-bottom-5 duration-1000 delay-300">
+                <div className="mt-8 relative z-10 animate-in slide-in-from-bottom-5 duration-1000 delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link href="/add-guru">
                         <button className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-primary/50 hover:ring-2 hover:ring-primary/50 hover:ring-offset-2 hover:ring-offset-background">
                             <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
@@ -54,77 +52,87 @@ export default function HomeContent({ gurus, experts, scammers, trending, isSear
                             <span className="relative">{t.addGuru}</span>
                         </button>
                     </Link>
+
+                    <Link href="/about">
+                        <button className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-secondary/80 px-8 font-medium text-secondary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:bg-secondary hover:shadow-secondary/25 hover:-translate-y-0.5 border border-white/10 backdrop-blur-sm">
+                            <Info className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+                            <span className="relative">{t.about}</span>
+                        </button>
+                    </Link>
                 </div>
-            </section>
+            </section >
 
             {/* Filters Section */}
-            <section className="w-full max-w-7xl px-4 -mt-8 relative z-20">
+            < section className="w-full max-w-7xl px-4 -mt-8 relative z-20" >
                 <SearchFilters />
-            </section>
+            </section >
 
             {/* Results Section */}
-            <section className="w-full max-w-7xl px-4 py-16 space-y-20">
+            < section className="w-full max-w-7xl px-4 py-16 space-y-20" >
 
-                {isSearching ? (
-                    <div>
-                        <div className="flex items-center justify-between mb-10">
-                            <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
-                                {query ? `${t.resultsFor} "${query}"` : t.filteredResults}
-                            </h2>
-                            <span className="text-sm text-muted-foreground">
-                                {gurus.length} {gurus.length === 1 ? t.guruFound : t.gurusFound}
-                            </span>
-                        </div>
-                        {gurus.length === 0 ? (
-                            <div className="text-center py-24 bg-secondary/20 rounded-2xl border border-dashed border-border/50 backdrop-blur-sm">
-                                <p className="text-muted-foreground text-lg">{t.noGurusFound}</p>
-                                <p className="text-sm text-muted-foreground/60 mt-2">{t.tryFewerKeywords}</p>
+                {
+                    isSearching ? (
+                        <div>
+                            <div className="flex items-center justify-between mb-10">
+                                <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+                                    {query ? `${t.resultsFor} "${query}"` : t.filteredResults}
+                                </h2>
+                                <span className="text-sm text-muted-foreground">
+                                    {gurus.length} {gurus.length === 1 ? t.guruFound : t.gurusFound}
+                                </span>
                             </div>
-                        ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-                                {gurus.map((guru: any) => (
-                                    <GuruCard key={guru._id} guru={guru} />
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <>
-                        {/* Trending Gurus */}
-                        <GuruSection
-                            title={t.trendingGurus}
-                            subtitle={t.trendingSubtitle}
-                            icon="🔥"
-                            variant="trending"
-                            gurus={trending}
-                        />
+                            {
+                                gurus.length === 0 ? (
+                                    <div className="text-center py-24 bg-secondary/20 rounded-2xl border border-dashed border-border/50 backdrop-blur-sm">
+                                        <p className="text-muted-foreground text-lg">{t.noGurusFound}</p>
+                                        <p className="text-sm text-muted-foreground/60 mt-2">{t.tryFewerKeywords}</p>
+                                    </div>
+                                ) : (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                                        {gurus.map((guru: any) => (
+                                            <GuruCard key={guru._id} guru={guru} />
+                                        ))}
+                                    </div>
+                                )
+                            }
+                        </div >
+                    ) : (
+                        <>
+                            {/* Trending Gurus */}
+                            <GuruSection
+                                title={t.trendingGurus}
+                                subtitle={t.trendingSubtitle}
+                                icon="🔥"
+                                variant="trending"
+                                gurus={trending}
+                            />
 
-                        {/* Hall of Fame - Experts */}
-                        <GuruSection
-                            title={t.hallOfFame}
-                            subtitle={t.hallOfFameSubtitle}
-                            icon="🏆"
-                            variant="expert"
-                            gurus={experts}
-                        />
+                            {/* Hall of Fame - Experts */}
+                            <GuruSection
+                                title={t.hallOfFame}
+                                subtitle={t.hallOfFameSubtitle}
+                                icon="🏆"
+                                variant="expert"
+                                gurus={experts}
+                            />
 
-                        {/* Wall of Shame - Scammers */}
-                        <GuruSection
-                            title={t.wallOfShame}
-                            subtitle={t.wallOfShameSubtitle}
-                            icon="⚠️"
-                            variant="scammer"
-                            gurus={scammers}
-                        />
+                            {/* Wall of Shame - Scammers */}
+                            <GuruSection
+                                title={t.wallOfShame}
+                                subtitle={t.wallOfShameSubtitle}
+                                icon="⚠️"
+                                variant="scammer"
+                                gurus={scammers}
+                            />
 
-                        {experts.length === 0 && scammers.length === 0 && trending.length === 0 && (
-                            <div className="text-center py-12">
-                                <p className="text-muted-foreground">{t.startSearching}</p>
-                            </div>
-                        )}
-                    </>
-                )}
-            </section>
-        </main>
+                            {experts.length === 0 && scammers.length === 0 && trending.length === 0 && (
+                                <div className="text-center py-12">
+                                    <p className="text-muted-foreground">{t.startSearching}</p>
+                                </div>
+                            )}
+                        </>
+                    )}
+            </section >
+        </main >
     );
 }

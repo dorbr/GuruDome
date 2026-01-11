@@ -14,6 +14,9 @@ export default function Footer() {
                     {t.copyright.replace('{year}', String(year))}
                 </div>
                 <nav className="flex items-center gap-6">
+                    <Link href="/about" className="hover:text-foreground transition-colors">
+                        {t.about}
+                    </Link>
                     <Link href="/privacy" className="hover:text-foreground transition-colors">
                         {t.privacyPolicy}
                     </Link>

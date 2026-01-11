@@ -33,6 +33,8 @@ export async function GET(request: NextRequest) {
             queryFilter.isHidden = true;
         } else if (filter === 'scam') {
             queryFilter.isScam = true;
+        } else if (filter === 'ai_fake') {
+            queryFilter['aiAnalysis.isFake'] = true;
         }
 
         if (guruId && mongoose.Types.ObjectId.isValid(guruId)) {

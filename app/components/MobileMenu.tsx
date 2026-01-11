@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Info, PlusCircle, Mail, Shield, Star, LogIn } from 'lucide-react';
+import { Home, Swords, PlusCircle, Mail, Shield, Star, LogIn } from 'lucide-react';
 import { useAuth } from './AuthProvider';
 import { useLanguage } from './LanguageProvider';
 import { cn } from '@/lib/utils';
@@ -34,16 +34,16 @@ export default function MobileMenu() {
                     <span className="text-[10px] font-medium">{t.home}</span>
                 </Link>
 
-                {/* 2. About (All) */}
+                {/* 2. Battles (All) */}
                 <Link
-                    href="/about"
+                    href="/battles"
                     className={cn(
                         "flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors",
-                        isActive('/about') ? "text-primary" : "text-muted-foreground hover:text-primary"
+                        isActive('/battles') ? "text-primary" : "text-muted-foreground hover:text-primary"
                     )}
                 >
-                    <Info className="w-5 h-5" />
-                    <span className="text-[10px] font-medium">{t.about}</span>
+                    <Swords className="w-5 h-5" />
+                    <span className="text-[10px] font-medium">{t.battles}</span>
                 </Link>
 
                 {/* 3. Add Guru (All - Center) */}

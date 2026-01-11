@@ -8,17 +8,23 @@ interface GuruAvatarProps {
     imageUrl?: string; // Stored URL from DB
     instagramUrl?: string; // Kept for future potential fallback or other uses, though primarily we use imageUrl now
     className?: string;
+    size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export default function GuruAvatar({ name, imageUrl, className = "h-12 w-12" }: GuruAvatarProps) {
+export default function GuruAvatar({ name, imageUrl, className, size = 'md' }: GuruAvatarProps) {
     const [imageError, setImageError] = useState(false);
 
-    // We prioritize the stored imageUrl.
-    // If it exists and hasn't errored, we show it.
-    // Otherwise fallback to initial.
+    const sizeClasses = {
+        sm: 'h-8 w-8 text-xs',
+        md: 'h-12 w-12 text-base',
+        lg: 'h-16 w-16 text-xl',
+        xl: 'h-24 w-24 text-3xl md:h-32 md:w-32 md:text-5xl',
+    };
+
+    const finalClassName = className || sizeClasses[size];
 
     return (
-        <div className={`relative rounded-full overflow-hidden bg-primary/10 flex-shrink-0 border border-border/50 flex items-center justify-center ${className}`}>
+        <div className={`relative rounded-full overflow-hidden bg-primary/10 flex-shrink-0 border border-border/50 flex items-center justify-center ${finalClassName}`}>
             {imageUrl && !imageError ? (
                 <Image
                     src={imageUrl}
@@ -26,8 +32,6 @@ export default function GuruAvatar({ name, imageUrl, className = "h-12 w-12" }: 
                     fill
                     className="object-cover"
                     onError={() => setImageError(true)}
-                    // Assuming scraped URLs might be external (Instagram CDN), so unoptimized is safer initially 
-                    // or configure domains in next.config.mjs. For now unoptimized.
                     unoptimized
                 />
             ) : (

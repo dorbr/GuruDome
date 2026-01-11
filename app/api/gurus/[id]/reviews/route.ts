@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/db";
 import { Review, Guru } from "@/lib/models";
 import mongoose from "mongoose";
+import { detectFakeReview, generateGuruAnalysis } from "@/lib/ai";
+import { refreshGuruAIAnalysis, updateGuruMetrics } from "@/lib/guru";
 
 export async function GET(
     request: Request,
@@ -62,6 +64,9 @@ export async function POST(
             return NextResponse.json({ error: "Guru not found" }, { status: 404 });
         }
 
+        // AI Detection
+        const aiAnalysis = await detectFakeReview({ text, title, rating });
+
         // Create Review
         const newReview = await Review.create({
             guruId: id,
@@ -72,24 +77,25 @@ export async function POST(
             detailedRatings,
             isScam,
             isPurchased,
+            aiAnalysis,
         });
 
-        // Update Guru Stats
-        const currentTotal = guru.ratingStats.totalReviews || 0;
-        const currentAvg = guru.ratingStats.averageRating || 0;
+        // Update Guru Stats & Performance Metrics
+        await updateGuruMetrics(id);
 
-        const newTotal = currentTotal + 1;
-        const newAvg = ((currentAvg * currentTotal) + rating) / newTotal;
-
-        const ratingKey = `ratingStats.ratingDistribution.${rating}`;
-
-        await Guru.findByIdAndUpdate(id, {
-            $set: {
-                "ratingStats.averageRating": newAvg,
-                "ratingStats.totalReviews": newTotal
-            },
-            $inc: { [ratingKey]: 1 }
-        });
+        // Trigger AI Analysis in background
+        try {
+            console.log("Triggering AI analysis for guru:", id);
+            // We don't await this to keep the response fast, or we await if we want to ensure it happens. 
+            // Given the user feedback "it doesn't work", let's await it to be sure it runs, 
+            // or at least catch errors properly. 
+            // For Vercel, unawaited promises can be killed. 
+            // Let's await it for now as a first step to ensure reliability.
+            await refreshGuruAIAnalysis(id);
+        } catch (error) {
+            console.error("Failed to refresh AI analysis:", error);
+            // Don't fail the request just because AI update failed
+        }
 
         return NextResponse.json(newReview, { status: 201 });
     } catch (error) {

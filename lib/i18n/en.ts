@@ -2,6 +2,7 @@ export const en = {
     // Header
     home: 'Home',
     about: 'About',
+    battles: 'Battles',
     contact: 'Contact',
     addGuru: 'Add Guru',
     signIn: 'Sign In',
@@ -95,7 +96,7 @@ export const en = {
     wildWestP1: 'Every day, millions of people look for guidance on how to build wealth, health, and happiness. And every day, countless scammers prey on that hope.',
     wildWestP2: 'Fake screenshots, rented lambos, and bot comments have made it impossible to tell who is legitimate.',
     thatEndsNow: 'That ends now.',
-    verifiedData: 'Verified Data',
+    verifiedData: 'Trustworthy Data',
     realReviews: 'Real Reviews',
     scamAlerts: 'Scam Alerts',
     performanceTracking: 'Performance Tracking',
@@ -110,6 +111,20 @@ export const en = {
     performanceTrackingDesc: 'We track the actual results of strategies taught by gurus to see if they hold up.',
     readyToFind: 'Ready to find real mentors?',
     readyToFindDesc: 'Join thousands of others who are safe-guarding their journey and learning from the best.',
+
+    // Guru Page AI & Performance
+    aiBackgroundCheck: 'AI Summary & Background Check',
+    beta: 'BETA',
+    aiGenerated: 'AI Generated',
+    summary: 'Summary',
+    backgroundCheckReport: 'Background Check Report',
+    lastUpdated: 'Last updated:',
+    noAIAnalysis: 'No AI analysis available yet. Data is generated periodically.',
+    noDataYet: 'Not enough data for history chart.',
+    basedOnReviews: 'Based on {count} user reviews',
+    performance: 'Performance Tracking',
+    history: 'Progress Over Time',
+    historyDescription: 'Visualize how the guru\'s reputation has evolved based on user reviews.',
 
     // Contact Page
     getInTouch: 'Get in Touch',
@@ -220,6 +235,13 @@ export const en = {
     termsContactTitle: '7. Contact Us',
     termsContactText: 'If you have any questions about these Terms, please contact us at support@gurudome.com.',
 
+    // Bug Report
+    reportBug: 'Report a Bug',
+    bugDescription: 'Describe the bug...',
+    submitBug: 'Submit Report',
+    bugReported: 'Bug Reported',
+    bugReportedDesc: 'Thanks for your feedback! We will look into it.',
+
     // Admin Panel
     admin: {
         title: 'Admin Panel',
@@ -310,6 +332,18 @@ export const en = {
             other: 'Other',
         },
         noReportsFound: 'No reports found',
+
+        // Bugs
+        bugReports: 'Bug Reports',
+        manageBugs: 'Track and resolve reported bugs',
+        pageUrl: 'Page URL',
+        userAgent: 'User Agent',
+        status: 'Status',
+        reporter: 'Reporter',
+        screenshot: 'Screenshot',
+        noBugsFound: 'No bugs reported',
+        markResolved: 'Mark Resolved',
+        markDismissed: 'Dismiss',
     },
 };
 

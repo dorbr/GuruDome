@@ -38,6 +38,11 @@ interface Review {
         email: string;
         photoURL?: string;
     };
+    aiAnalysis?: {
+        isFake: boolean;
+        confidence: number;
+        reasoning: string;
+    };
 }
 
 interface Pagination {
@@ -180,6 +185,7 @@ export default function AdminReviewsPage() {
                     <option value="flagged">Flagged (Reported)</option>
                     <option value="hidden">Hidden</option>
                     <option value="scam">Scam Reports</option>
+                    <option value="ai_fake">AI Flagged (Potential Fake)</option>
                 </select>
                 {guruId && (
                     <div className="flex items-center gap-2 px-3 py-2 bg-primary/10 rounded-lg">
@@ -234,6 +240,12 @@ export default function AdminReviewsPage() {
                                     <span className="text-xs px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 rounded-full flex items-center gap-1">
                                         <Flag className="h-3 w-3" />
                                         {review.reportCount} reports
+                                    </span>
+                                )}
+                                {review.aiAnalysis?.isFake && (
+                                    <span className="text-xs px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 rounded-full flex items-center gap-1" title={review.aiAnalysis.reasoning}>
+                                        <span>🤖</span>
+                                        AI Flagged ({review.aiAnalysis.confidence}%)
                                     </span>
                                 )}
                             </div>

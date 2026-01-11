@@ -11,7 +11,8 @@ import {
     MessageSquare,
     Flag,
     ChevronLeft,
-    Shield
+    Shield,
+    Bug
 } from 'lucide-react';
 
 const navItems = [
@@ -20,6 +21,7 @@ const navItems = [
     { href: '/admin/gurus', label: 'Gurus', icon: Star },
     { href: '/admin/reviews', label: 'Reviews', icon: MessageSquare },
     { href: '/admin/reports', label: 'Reports', icon: Flag },
+    { href: '/admin/bugs', label: 'Bugs', icon: Bug },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -85,8 +87,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 key={item.href}
                                 href={item.href}
                                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
-                                        ? 'bg-primary/10 text-primary'
-                                        : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                                    ? 'bg-primary/10 text-primary'
+                                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                                     }`}
                             >
                                 <item.icon className="h-4 w-4" />
@@ -115,8 +117,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             key={item.href}
                             href={item.href}
                             className={`flex flex-col items-center gap-1 p-2 transition-colors ${isActive
-                                    ? 'text-primary'
-                                    : 'text-muted-foreground hover:text-foreground'
+                                ? 'text-primary'
+                                : 'text-muted-foreground hover:text-foreground'
                                 }`}
                         >
                             <item.icon className="h-5 w-5" />

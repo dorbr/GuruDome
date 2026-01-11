@@ -32,9 +32,10 @@ export default function ReviewCard({ review }: { review: any }) {
                         <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary shrink-0">
                             {review.userId.charAt(0).toUpperCase()}
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col gap-1">
+                            <span className="font-semibold text-sm">User {review.userId.slice(0, 4)}...</span>
+
                             <div className="flex flex-wrap items-center gap-2">
-                                <span className="font-semibold text-sm">User {review.userId.slice(0, 4)}...</span>
                                 {review.isPurchased && (
                                     <span className="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-2 py-0.5 text-[10px] sm:text-xs font-medium text-green-700 dark:border-green-800 dark:bg-green-900/30 dark:text-green-400">
                                         Purchased
@@ -43,6 +44,12 @@ export default function ReviewCard({ review }: { review: any }) {
                                 {review.isScam && (
                                     <span className="inline-flex items-center rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-[10px] sm:text-xs font-medium text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
                                         Scam Report
+                                    </span>
+                                )}
+                                {review.aiAnalysis?.isFake && (
+                                    <span className="inline-flex items-center gap-1 rounded-full border border-orange-200 bg-orange-50 px-2 py-0.5 text-[10px] sm:text-xs font-medium text-orange-700 dark:border-orange-800 dark:bg-orange-900/30 dark:text-orange-400" title={review.aiAnalysis.reasoning}>
+                                        <span>🤖</span>
+                                        AI Flagged
                                     </span>
                                 )}
                             </div>
