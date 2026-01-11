@@ -12,6 +12,8 @@ const CATEGORIES = [
     'Marketing',
     'Fitness',
     'Lifestyle',
+    'Beauty',
+    'Stocks',
     'Other',
 ];
 
@@ -22,6 +24,8 @@ const CATEGORY_KEYS: Record<string, keyof typeof import('@/lib/i18n').en.categor
     'Marketing': 'marketing',
     'Fitness': 'fitness',
     'Lifestyle': 'lifestyle',
+    'Beauty': 'beauty',
+    'Stocks': 'stocks',
     'Other': 'other',
 };
 

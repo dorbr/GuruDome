@@ -56,6 +56,8 @@ export default function AdminGurusPage() {
         'marketing',
         'fitness',
         'lifestyle',
+        'beauty',
+        'stocks',
         'other'
     ];
 

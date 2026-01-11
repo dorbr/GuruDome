@@ -32,6 +32,8 @@ export const he: TranslationKeys = {
         marketing: 'שיווק',
         fitness: 'כושר',
         lifestyle: 'לייפסטייל',
+        beauty: 'יופי',
+        stocks: 'מניות',
         other: 'אחר',
     },
     ratingFilters: {

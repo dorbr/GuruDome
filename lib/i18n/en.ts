@@ -30,6 +30,8 @@ export const en = {
         marketing: 'Marketing',
         fitness: 'Fitness',
         lifestyle: 'Lifestyle',
+        beauty: 'Beauty',
+        stocks: 'Stocks',
         other: 'Other',
     },
     ratingFilters: {
