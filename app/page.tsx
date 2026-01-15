@@ -9,6 +9,7 @@ interface SearchParams {
   minRating?: string;
   maxRating?: string;
   sort?: string;
+  view?: string;
 }
 
 async function getGurus(params: SearchParams) {
@@ -130,7 +131,7 @@ export default async function Home(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.q || '';
   const hasFilters = searchParams?.category || searchParams?.minRating || searchParams?.maxRating;
-  const isSearching = query || hasFilters;
+  const isSearching = query || hasFilters || searchParams?.view === 'all';
 
   let gurus = [];
   let experts = [];

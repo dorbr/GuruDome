@@ -7,7 +7,7 @@ import GuruCard from './GuruCard';
 import GuruSection from './GuruSection';
 import { useLanguage } from './LanguageProvider';
 import Link from 'next/link';
-import { Plus, Info } from 'lucide-react';
+import { Plus, Info, List } from 'lucide-react';
 interface HomeContentProps {
     gurus: any[];
     experts: any[];
@@ -50,6 +50,13 @@ export default function HomeContent({ gurus, experts, scammers, trending, isSear
                             </div>
                             <Plus className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:rotate-90 group-active:rotate-180" />
                             <span className="relative">{t.addGuru}</span>
+                        </button>
+                    </Link>
+
+                    <Link href="/?view=all">
+                        <button className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-secondary/80 px-8 font-medium text-secondary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:bg-secondary hover:shadow-secondary/25 hover:-translate-y-0.5 border border-white/10 backdrop-blur-sm">
+                            <List className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+                            <span className="relative">{t.viewAllGurus}</span>
                         </button>
                     </Link>
 

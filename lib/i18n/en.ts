@@ -8,6 +8,7 @@ export const en = {
     signIn: 'Sign In',
     signOut: 'Sign Out',
     login: 'Login',
+    viewAllGurus: 'View All Gurus',
 
     // Hero - Risk Hardening
     heroTitle1: 'Analyzing the',

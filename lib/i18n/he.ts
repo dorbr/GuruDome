@@ -10,6 +10,7 @@ export const he: TranslationKeys = {
     signIn: 'התחברות',
     signOut: 'התנתקות',
     login: 'התחברות',
+    viewAllGurus: 'צפה בכל הגורואים',
 
     // Hero - Risk Hardening
     heroTitle1: 'חושפים את',
