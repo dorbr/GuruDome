@@ -178,6 +178,9 @@ export const en = {
     bioOptional: 'Bio (Optional)',
     shortDescription: 'Short description...',
     adding: 'Adding...',
+    guruExistsError: 'Guru with this Social URL already exists.',
+    viewExistingGuru: 'View existing guru here:',
+    invalidInstagramUrl: 'Could not capture Instagram username from this URL.',
 
     // Review Form - Risk Hardening
     scamReport: 'Flag as Suspicious', // "Scam Report" -> "Flag as Suspicious"

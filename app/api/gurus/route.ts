@@ -3,6 +3,8 @@ import connectToDatabase from "@/lib/db";
 import { Guru } from "@/lib/models";
 import { fetchInstagramImage } from "@/lib/instagram";
 import { uploadImageFromUrl } from "@/lib/storage";
+import { normalizeSocialUrl } from "@/lib/url-utils";
+import { getInstagramUsername } from "@/lib/utils";
 
 export async function GET(request: Request) {
     try {
@@ -85,11 +87,50 @@ export async function POST(request: Request) {
             );
         }
 
-        // Check for existing guru by Instagram URL
-        const existingGuru = await Guru.findOne({ socialUrl: body.socialUrl });
+        // Normalize the URL
+        const normalizedUrl = normalizeSocialUrl(body.socialUrl);
+        // Update body with normalized URL so it's saved correctly
+        body.socialUrl = normalizedUrl;
+
+        // Block invalid Instagram URLs if we can't extract a username
+        if (normalizedUrl.includes('instagram.com') || normalizedUrl.includes('instagr.am')) {
+            const username = getInstagramUsername(normalizedUrl);
+            if (!username) {
+                return NextResponse.json(
+                    { error: "Could not capture Instagram username from this URL" },
+                    { status: 400 }
+                );
+            }
+        }
+
+        // Check for existing guru
+        // Strategy:  
+        // 1. Exact match on normalized URL (fastest)
+        // 2. If it makes sense (Instagram), try to find by username to catch dirty data
+        let existingGuru = await Guru.findOne({ socialUrl: normalizedUrl });
+
+        if (!existingGuru) {
+            // Check robustly for Instagram
+            const igUsername = getInstagramUsername(normalizedUrl);
+            if (igUsername) {
+                // Regex to find any URL containing instagram.com/[username]
+                // We use a regex that looks for instagram.com/username followed by end of string, slash, or question mark
+                // escaping the username for safety
+                const escapedUsername = igUsername.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const pattern = `instagram\\.com\\/${escapedUsername}(\\/|\\?|$)`;
+
+                existingGuru = await Guru.findOne({
+                    socialUrl: { $regex: new RegExp(pattern, 'i') }
+                });
+            }
+        }
+
         if (existingGuru) {
             return NextResponse.json(
-                { error: "Guru with this Social URL already exists" },
+                {
+                    error: "Guru with this Social URL already exists",
+                    existingGuruId: existingGuru._id
+                },
                 { status: 409 }
             );
         }

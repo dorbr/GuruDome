@@ -41,6 +41,7 @@ export default function AddGuruPage() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
+    const [duplicateGuruId, setDuplicateGuruId] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,6 +51,7 @@ export default function AddGuruPage() {
         e.preventDefault();
         setIsSubmitting(true);
         setError('');
+        setDuplicateGuruId(null);
 
         try {
             const res = await fetch('/api/gurus', {
@@ -58,12 +60,20 @@ export default function AddGuruPage() {
                 body: JSON.stringify(formData),
             });
 
+            const data = await res.json();
+
             if (!res.ok) {
-                const data = await res.json();
+                if (res.status === 409 && data.existingGuruId) {
+                    setDuplicateGuruId(data.existingGuruId);
+                    throw new Error(t.guruExistsError);
+                }
+                if (res.status === 400 && data.error === "Could not capture Instagram username from this URL") {
+                    throw new Error(t.invalidInstagramUrl);
+                }
                 throw new Error(data.error || 'Failed to add guru');
             }
 
-            const newGuru = await res.json();
+            const newGuru = data;
             router.push(`/guru/${newGuru._id}`);
         } catch (err: any) {
             setError(err.message);
@@ -120,7 +130,16 @@ export default function AddGuruPage() {
                     <form onSubmit={handleSubmit} className="mt-8 space-y-6 rounded-xl border bg-card p-8 shadow-sm">
                         {error && (
                             <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
-                                {error}
+                                {error === t.guruExistsError && duplicateGuruId ? (
+                                    <span>
+                                        {t.guruExistsError}{" "}
+                                        <a href={`/guru/${duplicateGuruId}`} className="underline font-bold hover:text-destructive/80">
+                                            {t.viewExistingGuru}
+                                        </a>
+                                    </span>
+                                ) : (
+                                    error
+                                )}
                             </div>
                         )}
 

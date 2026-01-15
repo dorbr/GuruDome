@@ -180,6 +180,9 @@ export const he: TranslationKeys = {
     bioOptional: 'ביוגרפיה (אופציונלי)',
     shortDescription: 'תיאור קצר...',
     adding: 'מוסיף...',
+    guruExistsError: 'גורו עם קישור זה כבר קיים.',
+    viewExistingGuru: 'צפה בגורו הקיים כאן:',
+    invalidInstagramUrl: 'לא הצלחנו לחלץ שם משתמש מקישור זה.',
 
     // Review Form - Risk Hardening
     scamReport: 'סמן כחשוד',
